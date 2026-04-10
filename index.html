@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parallax.void — A cinematic portfolio by Ayush. Design, code & motion." />
+  <title>Parallax.void</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- OVERLAYS -->
+  <div id="grain-overlay" aria-hidden="true"></div>
+  <div id="vignette-overlay" aria-hidden="true"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-logo">Parallax<span>.void</span></div>
+      <div class="preloader-bar-track"><div class="preloader-bar-fill" id="preloader-fill"></div></div>
+      <span class="preloader-text" id="preloader-text">0%</span>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav id="main-nav">
+    <a href="#hero" class="nav-logo" data-magnetic>Parallax<span>.void</span></a>
+    <div class="nav-links">
+      <a href="#hero" class="nav-link active" data-magnetic>Home</a>
+      <a href="#about" class="nav-link" data-magnetic>About</a>
+      <a href="#skills" class="nav-link" data-magnetic>Skills</a>
+      <a href="#projects" class="nav-link" data-magnetic>Projects</a>
+      <a href="#contact" class="nav-link" data-magnetic>Contact</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section id="hero">
+    <div id="spline-canvas-hero" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-magnetic>
+        <span class="eyebrow-line"></span>
+        <span class="eyebrow-text">PARALLAX.VOID — 2026</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <div class="hero-headline-wrapper" style="perspective: 1200px;">
+        <h1 class="hero-headline" id="hero-headline">ENTER THE VOID</h1>
+      </div>
+      <p class="hero-subtitle" id="hero-subtitle">A cinematic journey through design, code &amp; motion.</p>
+      <div class="hero-cta-group">
+        <button class="btn-primary" id="btn-explore" data-magnetic><span class="btn-text">Explore</span><span class="btn-glow"></span></button>
+        <button class="btn-ghost" id="btn-skip" data-magnetic>Skip Intro</button>
+      </div>
+      <div class="scroll-indicator" id="scroll-indicator">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span class="scroll-text">SCROLL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLASS CRACK OVERLAY -->
+  <div id="crack-overlay" aria-hidden="true">
+    <svg viewBox="0 0 1920 1080" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><filter id="crack-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <g id="crack-lines" filter="url(#crack-glow)" stroke="rgba(127,119,221,0.5)" stroke-width="1.5" fill="none">
+        <path class="crack-path" d="M960,540 L1050,420 L1120,350 L1200,280"/>
+        <path class="crack-path" d="M960,540 L870,430 L800,370 L720,290"/>
+        <path class="crack-path" d="M960,540 L1040,620 L1100,700 L1180,800"/>
+        <path class="crack-path" d="M960,540 L880,640 L820,720 L740,810"/>
+        <path class="crack-path" d="M960,540 L1100,530 L1260,510 L1400,490"/>
+        <path class="crack-path" d="M960,540 L820,550 L660,570 L520,590"/>
+        <path class="crack-path" d="M960,540 L970,400 L990,280 L1010,160"/>
+        <path class="crack-path" d="M960,540 L950,680 L930,800 L910,920"/>
+        <path class="crack-path" d="M1050,420 L1130,440 L1220,430"/>
+        <path class="crack-path" d="M870,430 L850,350 L810,280"/>
+        <path class="crack-path" d="M1040,620 L1140,610 L1230,640"/>
+        <path class="crack-path" d="M880,640 L790,670 L710,650"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ════════════ ABOUT ════════════ -->
+  <section id="about">
+    <div class="section-label"><span class="label-num">01</span> ABOUT</div>
+    <div class="about-layout">
+      <!-- Top row: heading + stats -->
+      <div class="about-top-row">
+        <div class="about-left-content">
+          <h2 class="about-heading">Who <span class="accent">I am</span></h2>
+          <p class="about-subtext">A builder at heart. I design, code, and ship products that matter.</p>
+        </div>
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-number" data-target="12">0</span>
+            <span class="stat-label">projects built</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="847">0</span>
+            <span class="stat-label">cups of coffee</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="24">0</span><span class="stat-suffix">k</span>
+            <span class="stat-label">lines of code</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio paragraph with cursor reveal -->
+      <div class="cursor-reveal-zone" id="cursor-reveal-zone">
+        <p class="reveal-text-base">Welcome! I'm Ayush. My journey in tech is driven by a simple goal: to build things that people actually want to use. Currently pursuing CSE with AI &amp; ML at VIT-AP — my real classroom is the projects I build. I love wearing multiple hats: one day prompt engineering or wiring up a database, the next obsessing over UI/UX for a mobile screen. Passionate about AI meeting practical product development.</p>
+        <p class="reveal-text-glow" id="reveal-text-glow" aria-hidden="true">Welcome! I'm Ayush. My journey in tech is driven by a simple goal: to build things that people actually want to use. Currently pursuing CSE with AI &amp; ML at VIT-AP — my real classroom is the projects I build. I love wearing multiple hats: one day prompt engineering or wiring up a database, the next obsessing over UI/UX for a mobile screen. Passionate about AI meeting practical product development.</p>
+      </div>
+
+      <!-- Timeline cards -->
+      <div class="timeline-wrapper" id="timeline-wrapper">
+        <div class="timeline-track" id="timeline-track">
+          <div class="timeline-card" data-year="2025">
+            <div class="card-front"><span class="card-year">2025</span><span class="card-theme">Begin</span></div>
+            <div class="card-back"><p>Enrolled at VIT-AP CSE (AI &amp; ML). First real code. First crash. First fix.</p></div>
+          </div>
+          <div class="timeline-card" data-year="2026">
+            <div class="card-front"><span class="card-year">2026</span><span class="card-theme">Explore</span></div>
+            <div class="card-back"><p>Deep dives into prompt engineering, ML, and falling in love with UI/UX design.</p></div>
+          </div>
+          <div class="timeline-card" data-year="2027">
+            <div class="card-front"><span class="card-year">2027</span><span class="card-theme">Ship</span></div>
+            <div class="card-back"><p></p></div>
+          </div>
+          <div class="timeline-card" data-year="2028">
+            <div class="card-front"><span class="card-year">2028</span><span class="card-theme">Expand</span></div>
+            <div class="card-back"><p></p></div>
+          </div>
+          <div class="timeline-card" data-year="2029">
+            <div class="card-front"><span class="card-year">2029</span><span class="card-theme">Beyond</span></div>
+            <div class="card-back"><p></p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ SKILLS ════════════ -->
+  <section id="skills">
+    <div class="section-label"><span class="label-num">02</span> SKILLS</div>
+    <canvas id="skills-canvas"></canvas>
+    <div class="skills-modal" id="skills-modal" hidden>
+      <div class="modal-content">
+        <div class="modal-ring-wrap"><canvas id="modal-ring-canvas" width="120" height="120"></canvas></div>
+        <h3 class="modal-skill-name" id="modal-skill-name"></h3>
+        <span class="modal-category" id="modal-category"></span>
+        <p class="modal-desc" id="modal-desc"></p>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ PROJECTS ════════════ -->
+  <section id="projects">
+    <div class="section-label"><span class="label-num">03</span> PROJECTS</div>
+    <div class="projects-inner">
+      <div class="section-header">
+        <h2 class="section-title">Selected Works</h2>
+        <p class="section-desc">Things I've built and shipped.</p>
+      </div>
+      <div class="project-grid">
+        <article class="project-card" data-project="bites">
+          <div class="card-img-slot"><div class="card-img-placeholder"><span>VIT-AP Bites</span></div></div>
+          <div class="card-content">
+            <span class="card-num">01</span>
+            <h3>VIT-AP Bites</h3>
+            <p class="card-tagline">Campus food, reimagined</p>
+            <div class="card-tags"><span>Flutter</span><span>Dart</span><span>Supabase</span></div>
+            <div class="card-cta"><span>View Project →</span></div>
+          </div>
+        </article>
+        <article class="project-card" data-project="parallax">
+          <div class="card-img-slot"><div class="card-img-placeholder"><span>Parallax.void</span></div></div>
+          <div class="card-content">
+            <span class="card-num">02</span>
+            <h3>Parallax.void</h3>
+            <p class="card-tagline">This portfolio you're inside right now</p>
+            <div class="card-tags"><span>Three.js</span><span>GSAP</span><span>Spline</span></div>
+            <div class="card-cta"><span>View Project →</span></div>
+          </div>
+        </article>
+        <article class="project-card" data-project="nebula">
+          <div class="card-img-slot"><div class="card-img-placeholder"><span>Nebula Engine</span></div></div>
+          <div class="card-content">
+            <span class="card-num">03</span>
+            <h3>Nebula Engine</h3>
+            <p class="card-tagline">Real-time 3D rendering pipeline</p>
+            <div class="card-tags"><span>WebGPU</span><span>WGSL</span><span>Rust</span></div>
+            <div class="card-cta"><span>View Project →</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ CONTACT ════════════ -->
+  <section id="contact">
+    <canvas id="contact-particles" aria-hidden="true"></canvas>
+    <div class="section-label"><span class="label-num">04</span> CONTACT</div>
+    <div class="contact-layout">
+      <div class="contact-left">
+        <h2 class="contact-heading">Let's build<br>something<br><span class="accent">together.</span></h2>
+        <p class="contact-sub">Have a project in mind, or just want to say hi? I'm always open to new ideas and collaborations.</p>
+        <div class="contact-accent-line">
+          <span class="accent-dot"></span>
+          <span class="accent-bar"></span>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="social-cards-grid">
+          <a href="#" class="social-card" data-color="#378ADD" data-magnetic>
+            <span class="sc-icon">in</span>
+            <span class="sc-label">LinkedIn</span>
+            <span class="sc-desc">Let's connect</span>
+          </a>
+          <a href="#" class="social-card" data-color="#D85A30" data-magnetic>
+            <span class="sc-icon">@</span>
+            <span class="sc-label">Email</span>
+            <span class="sc-desc">Drop a mail</span>
+          </a>
+          <a href="#" class="social-card" data-color="#AFA9EC" data-magnetic>
+            <span class="sc-icon">gh</span>
+            <span class="sc-label">GitHub</span>
+            <span class="sc-desc">See my code</span>
+          </a>
+          <a href="#" class="social-card" data-color="#1DA1F2" data-magnetic>
+            <span class="sc-icon">tw</span>
+            <span class="sc-label">Twitter</span>
+            <span class="sc-desc">Follow me</span>
+          </a>
+          <a href="#" class="social-card" data-color="#D4537E" data-magnetic>
+            <span class="sc-icon">ig</span>
+            <span class="sc-label">Instagram</span>
+            <span class="sc-desc">@ayush</span>
+          </a>
+          <a href="#" class="social-card" data-color="#1D9E75" data-magnetic>
+            <span class="sc-icon">web</span>
+            <span class="sc-label">Website</span>
+            <span class="sc-desc">My portfolio</span>
+          </a>
+        </div>
+        <div class="contact-pro-tip">
+          <span class="pro-tip-badge">Pro tip</span>
+          <p>I respond fastest on LinkedIn and Email. Feel free to reach out anytime — no formalities needed!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="site-footer">
+    <span class="footer-brand">Parallax<span>.void</span></span>
+    <span class="footer-copy">© 2026 Ayush. Crafted in the void.</span>
+  </footer>
+
+  <!-- CURSOR -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-trail" aria-hidden="true">
+    <span class="trail-dot"></span><span class="trail-dot"></span><span class="trail-dot"></span><span class="trail-dot"></span>
+    <span class="trail-dot"></span><span class="trail-dot"></span><span class="trail-dot"></span><span class="trail-dot"></span>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
