@@ -92,10 +92,37 @@ export function initTimeline() {
 
   // Phase 4 (0.85 → 1.0): Natural pause before releasing the pin
 
-  // Click to flip cards
+  // Click to flip cards (only if already in view / animated in)
   cards.forEach((card) => {
     card.addEventListener('click', () => card.classList.toggle('flipped'));
   });
+
+  // Scroll-entry flip: each card fans open from left edge
+  const trackEl = document.getElementById('timeline-track');
+  if (trackEl) {
+    // Set initial state on all cards
+    cards.forEach((card) => {
+      card.style.opacity = '0';
+      card.style.transform = 'perspective(1000px) rotateY(90deg)';
+      card.style.transformOrigin = 'left center';
+    });
+
+    const entryObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          Array.from(cards).forEach((card, i) => {
+            setTimeout(() => {
+              card.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'perspective(1000px) rotateY(0deg)';
+            }, i * 120);
+          });
+          entryObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+    entryObserver.observe(trackEl);
+  }
 
   // Refresh on resize so measurements stay correct
   let resizeTimer;

@@ -10,6 +10,9 @@ import { initCursorReveal, initTimeline, initStats, initAboutReveal } from './ab
 import { initSkills } from './skills.js';
 import { initProjects } from './projects.js';
 import { initContact } from './contact.js';
+import { initSectionNumbers } from './section-numbers.js';
+import { initFooterStars } from './footer-stars.js';
+import { initMobileNav } from './mobile-nav.js';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -170,6 +173,9 @@ async function boot() {
     initSkills();
     initProjects();
     initContact();
+    initSectionNumbers();
+    initFooterStars();
+    initMobileNav();
   });
 }
 
