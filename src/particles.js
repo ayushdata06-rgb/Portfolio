@@ -1,14 +1,34 @@
 /* PARALLAX.VOID — Hero Bubble Particle System
-   65+ cursor-reactive purple bubbles with spring-return physics,
+   Adaptive count, cursor-reactive purple bubbles with spring-return physics,
    repulsion field, gravity-well vortex on click-hold, explosion on release.
-   Rendered on a 2D canvas above background, below text. */
+   Pauses when tab is hidden. Rendered on a 2D canvas. */
 
 export function initParticles() {
   const canvas = document.getElementById('particle-canvas');
-  if (!canvas || window.innerWidth < 768) return;
+  if (!canvas) return;
+
+  // Adaptive particle count based on device capability
+  const isMobile = window.innerWidth < 768;
+  const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1200;
+  const cores = navigator.hardwareConcurrency || 4;
+
+  let COUNT;
+  if (isMobile) {
+    COUNT = 18;
+  } else if (isTablet) {
+    COUNT = 35;
+  } else if (cores >= 8) {
+    COUNT = 65;
+  } else {
+    COUNT = 45;
+  }
+
+  // On mobile, only render — no pointer interactions
+  if (isMobile) {
+    canvas.style.pointerEvents = 'none';
+  }
 
   const ctx = canvas.getContext('2d');
-  const COUNT = 65;
   const REPULSION_RADIUS = 120;
   const SPRING_STIFFNESS = 80;
   const SPRING_DAMPING = 12;
@@ -21,6 +41,8 @@ export function initParticles() {
   let W, H, dpr;
   let mouse = { x: -9999, y: -9999, pressed: false, justReleased: false };
   let particles = [];
+  let isVisible = true;
+  let rafId = null;
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio, 2);
@@ -98,7 +120,6 @@ export function initParticles() {
         forceY = -(dy / dist) * strength;
       } else if (!mouse.pressed && dist < REPULSION_RADIUS && dist > 1) {
         // REPULSION: push away from cursor
-        // Smaller bubbles snap away faster (inversely proportional to mass)
         const strength = (1 - dist / REPULSION_RADIUS) * 400 / this.mass;
         forceX = (dx / dist) * strength;
         forceY = (dy / dist) * strength;
@@ -194,7 +215,8 @@ export function initParticles() {
 
   let lastTime = 0;
   function loop(time) {
-    requestAnimationFrame(loop);
+    if (!isVisible) { rafId = null; return; }
+    rafId = requestAnimationFrame(loop);
     const dt = lastTime ? Math.min(time - lastTime, 50) : 16;
     lastTime = time;
 
@@ -233,6 +255,15 @@ export function initParticles() {
     });
   });
 
+  // Pause when tab is hidden — saves CPU/battery
+  document.addEventListener('visibilitychange', () => {
+    isVisible = !document.hidden;
+    if (isVisible && !rafId) {
+      lastTime = 0;
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+
   init();
-  requestAnimationFrame(loop);
+  rafId = requestAnimationFrame(loop);
 }

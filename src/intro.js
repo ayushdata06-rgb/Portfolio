@@ -1,9 +1,11 @@
 /* ═══════════════════════════════════════════════════════
    THE VOID — Intro Animation
-   GSAP kinetic text with custom SplitText utility.
+   Character scramble decode → GSAP kinetic text reveal.
    ═══════════════════════════════════════════════════════ */
 
 import gsap from 'gsap';
+
+const SCRAMBLE_CHARS = '#@$%&!?░▒▓█▀▄■□◆◇●○';
 
 function splitTextIntoChars(element) {
   const fullText = element.textContent;
@@ -37,6 +39,7 @@ function splitTextIntoChars(element) {
           s.className = 'char';
           s.textContent = word[i];
           s.setAttribute('aria-hidden', 'true');
+          s.dataset.letter = word[i]; // store real letter for scramble
           element.appendChild(s);
           chars.push(s);
         }
@@ -61,6 +64,7 @@ function splitTextIntoChars(element) {
         s.className = 'char';
         s.textContent = innerText[i];
         s.setAttribute('aria-hidden', 'true');
+        s.dataset.letter = innerText[i]; // store real letter for scramble
         wrapper.appendChild(s);
         chars.push(s);
       }
@@ -69,6 +73,53 @@ function splitTextIntoChars(element) {
     isFirstNode = false;
   });
   return chars;
+}
+
+/**
+ * Scramble decode effect — each char cycles through random glyphs
+ * then locks to the real letter, staggered left-to-right.
+ */
+function scrambleDecode(chars) {
+  return new Promise((resolve) => {
+    const CYCLE_INTERVAL = 30;  // ms between random char swaps
+    const LOCK_STAGGER = 60;    // ms delay between each char locking
+    const CYCLES_BEFORE_LOCK = 8; // how many random chars before locking
+
+    let resolved = 0;
+
+    chars.forEach((charEl, index) => {
+      const realLetter = charEl.dataset.letter || charEl.textContent;
+
+      // Skip spaces
+      if (realLetter.trim() === '' || charEl.innerHTML === '&nbsp;') {
+        resolved++;
+        if (resolved >= chars.length) resolve();
+        return;
+      }
+
+      let cycleCount = 0;
+      const startDelay = index * LOCK_STAGGER;
+
+      // Initially show a random char
+      charEl.textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      charEl.style.opacity = '1';
+
+      const timer = setTimeout(() => {
+        const interval = setInterval(() => {
+          cycleCount++;
+          if (cycleCount >= CYCLES_BEFORE_LOCK) {
+            clearInterval(interval);
+            charEl.textContent = realLetter;
+            charEl.style.color = '';
+            resolved++;
+            if (resolved >= chars.length) resolve();
+          } else {
+            charEl.textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+          }
+        }, CYCLE_INTERVAL);
+      }, startDelay);
+    });
+  });
 }
 
 let introTimeline = null;
@@ -85,27 +136,38 @@ export function initIntro() {
     headline.style.opacity = '1';
     const chars = splitTextIntoChars(headline);
 
+    // Hide all chars initially
+    chars.forEach((c) => { c.style.opacity = '0'; });
+
     introTimeline = gsap.timeline({ onComplete: () => { introTimeline = null; resolve(); } });
 
+    // Phase 0: Fade in eyebrow
     introTimeline.to(eyebrow, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' });
 
+    // Phase 1: Scramble decode — chars appear one by one with glitch cycling
+    introTimeline.add(() => {
+      // Make chars visible with stagger
+      chars.forEach((c, i) => {
+        gsap.to(c, { opacity: 1, duration: 0.05, delay: i * 0.04 });
+      });
+      return scrambleDecode(chars);
+    }, '+=0.1');
+
+    // Phase 2: After scramble, do the kinetic burst for extra punch
     introTimeline.from(chars, {
-      opacity: 0,
-      y: () => gsap.utils.random(-80, 80),
-      x: () => gsap.utils.random(-40, 40),
-      rotationX: () => gsap.utils.random(-90, 90),
-      rotationY: () => gsap.utils.random(-45, 45),
-      rotationZ: () => gsap.utils.random(-15, 15),
-      scale: () => gsap.utils.random(0.3, 0.8),
-      duration: 0.9,
-      stagger: 0.04,
+      y: () => gsap.utils.random(-20, 20),
+      scale: () => gsap.utils.random(0.9, 1.1),
+      duration: 0.5,
+      stagger: 0.02,
       ease: 'power4.out',
       transformOrigin: '50% 50%',
-    }, '-=0.3');
+    }, '+=0.3');
 
+    // Phase 3: Subtitle
     gsap.set(subtitle, { y: 20 });
-    introTimeline.to(subtitle, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3');
+    introTimeline.to(subtitle, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2');
 
+    // Phase 4: Scroll indicator
     introTimeline.to(scrollIndicator, { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2');
   });
 }
