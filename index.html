@@ -215,6 +215,25 @@
           <span class="accent-dot"></span>
           <span class="accent-bar"></span>
         </div>
+        
+        <form class="contact-form" id="contact-form">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="New message from Parallax.void!">
+          <div class="form-group">
+            <input type="text" id="name" name="name" placeholder="Your Name" required />
+          </div>
+          <div class="form-group">
+            <input type="email" id="email" name="email" placeholder="Your Email" required />
+          </div>
+          <div class="form-group">
+            <textarea id="message" name="message" placeholder="Your Message" required rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" id="submit-btn" data-magnetic>
+            <span class="btn-text">Send Message</span>
+            <span class="btn-glow"></span>
+          </button>
+          <p class="form-status" id="form-status"></p>
+        </form>
       </div>
       <div class="contact-right">
         <div class="social-cards-grid">

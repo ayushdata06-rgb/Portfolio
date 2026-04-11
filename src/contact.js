@@ -7,6 +7,7 @@ export function initContact() {
   initContactParticles();
   initMagneticCards();
   initContactReveal();
+  initContactForm();
 }
 
 // ── PARTICLE NETWORK BACKGROUND ──
@@ -157,6 +158,11 @@ function initContactReveal() {
     scrollTrigger: { trigger: '#contact', start: 'top 75%' },
   });
 
+  gsap.from('.contact-form', {
+    y: 30, opacity: 0, duration: 0.8, delay: 0.4, ease: 'power3.out',
+    scrollTrigger: { trigger: '#contact', start: 'top 75%' },
+  });
+
   gsap.from('.social-card', {
     y: 30, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
     scrollTrigger: { trigger: '.social-cards-grid', start: 'top 80%' },
@@ -165,5 +171,52 @@ function initContactReveal() {
   gsap.from('.contact-pro-tip', {
     y: 20, opacity: 0, duration: 0.6, delay: 0.5, ease: 'power3.out',
     scrollTrigger: { trigger: '.contact-pro-tip', start: 'top 90%' },
+  });
+}
+
+// ── CONTACT FORM ──
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnText = submitBtn?.querySelector('.btn-text');
+  
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!submitBtn || !btnText) return;
+
+    btnText.textContent = 'Sending...';
+    submitBtn.style.pointerEvents = 'none';
+
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/ayushdata69@gmail.com', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        status.textContent = 'Message sent! I will reply soon.';
+        status.className = 'form-status success';
+        form.reset();
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      status.textContent = 'Failed to send message. Please try again or use the email link.';
+      status.className = 'form-status error';
+    } finally {
+      btnText.textContent = 'Send Message';
+      submitBtn.style.pointerEvents = 'auto';
+      setTimeout(() => {
+        status.textContent = '';
+        status.className = 'form-status';
+      }, 5000);
+    }
   });
 }
