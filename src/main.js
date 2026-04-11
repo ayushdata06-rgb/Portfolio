@@ -48,12 +48,36 @@ async function initSmoothScroll() {
   state.lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => { state.lenis.raf(time * 1000); });
   gsap.ticker.lagSmoothing(0);
+
+  // Scroll progress bar
+  const progressBar = document.getElementById('scroll-progress');
+  if (progressBar) {
+    state.lenis.on('scroll', ({ progress }) => {
+      progressBar.style.transform = `scaleX(${progress})`;
+    });
+  }
 }
 
-// ── ACTIVE NAV LINK ──
+// ── ACTIVE NAV LINK WITH SLIDING PILL ──
 function initNavHighlight() {
   const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
   const links = document.querySelectorAll('.nav-link');
+  const pill = document.getElementById('nav-pill');
+
+  function movePill(link) {
+    if (!pill || !link) return;
+    const rect = link.getBoundingClientRect();
+    const parentRect = link.parentElement.getBoundingClientRect();
+    const left = rect.left - parentRect.left;
+    const width = rect.width;
+
+    gsap.to(pill, {
+      left: left,
+      width: width,
+      duration: 0.4,
+      ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    });
+  }
 
   sections.forEach((id) => {
     ScrollTrigger.create({
@@ -68,7 +92,20 @@ function initNavHighlight() {
   function setActive(id) {
     links.forEach((l) => l.classList.remove('active'));
     const target = document.querySelector(`.nav-link[href="#${id}"]`);
-    if (target) target.classList.add('active');
+    if (target) {
+      target.classList.add('active');
+      movePill(target);
+    }
+  }
+
+  // Initial pill position
+  const activeLink = document.querySelector('.nav-link.active');
+  if (activeLink && pill) {
+    // Set initial position immediately (no animation)
+    const rect = activeLink.getBoundingClientRect();
+    const parentRect = activeLink.parentElement.getBoundingClientRect();
+    pill.style.left = `${rect.left - parentRect.left}px`;
+    pill.style.width = `${rect.width}px`;
   }
 
   // Smooth scroll on nav click
