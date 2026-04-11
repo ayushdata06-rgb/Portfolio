@@ -10,7 +10,7 @@ import { initCursorReveal, initTimeline, initStats, initAboutReveal } from './ab
 import { initSkills } from './skills.js';
 import { initProjects } from './projects.js';
 import { initContact } from './contact.js';
-import { initCrackTransition } from './crack.js';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -132,7 +132,7 @@ async function boot() {
     await initSmoothScroll();
 
     await initIntro();
-    initCrackTransition();
+
     initNavHighlight();
     initSectionReveals();
 

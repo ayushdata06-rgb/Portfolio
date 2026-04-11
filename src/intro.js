@@ -6,29 +6,67 @@
 import gsap from 'gsap';
 
 function splitTextIntoChars(element) {
-  const text = element.textContent;
-  element.textContent = '';
-  element.setAttribute('aria-label', text);
-  const chars = [];
-  const words = text.split(' ');
+  const fullText = element.textContent;
+  element.setAttribute('aria-label', fullText);
 
-  words.forEach((word, wi) => {
-    for (let i = 0; i < word.length; i++) {
-      const s = document.createElement('span');
-      s.className = 'char';
-      s.textContent = word[i];
-      s.setAttribute('aria-hidden', 'true');
-      element.appendChild(s);
-      chars.push(s);
+  // Collect child nodes before clearing
+  const childNodes = Array.from(element.childNodes);
+  element.innerHTML = '';
+  const chars = [];
+  let isFirstNode = true;
+
+  childNodes.forEach((node) => {
+    // If it's a text node, split into words/chars
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent;
+      const words = text.split(' ');
+      words.forEach((word, wi) => {
+        // Add space before word if not first word (and not first node starting with space)
+        if (wi > 0 || (!isFirstNode && text.startsWith(' '))) {
+          if (wi > 0) {
+            const sp = document.createElement('span');
+            sp.className = 'char';
+            sp.innerHTML = '&nbsp;';
+            sp.setAttribute('aria-hidden', 'true');
+            element.appendChild(sp);
+            chars.push(sp);
+          }
+        }
+        for (let i = 0; i < word.length; i++) {
+          const s = document.createElement('span');
+          s.className = 'char';
+          s.textContent = word[i];
+          s.setAttribute('aria-hidden', 'true');
+          element.appendChild(s);
+          chars.push(s);
+        }
+      });
+      // If text ends with space, add trailing space
+      if (text.endsWith(' ') && !text.trim() === '') {
+        const sp = document.createElement('span');
+        sp.className = 'char';
+        sp.innerHTML = '&nbsp;';
+        sp.setAttribute('aria-hidden', 'true');
+        element.appendChild(sp);
+        chars.push(sp);
+      }
     }
-    if (wi < words.length - 1) {
-      const sp = document.createElement('span');
-      sp.className = 'char';
-      sp.innerHTML = '&nbsp;';
-      sp.setAttribute('aria-hidden', 'true');
-      element.appendChild(sp);
-      chars.push(sp);
+    // If it's an element (like <span class="glitch-text">), preserve wrapper and split inner text
+    else if (node.nodeType === Node.ELEMENT_NODE) {
+      const wrapper = node.cloneNode(false); // clone without children
+      wrapper.textContent = '';
+      const innerText = node.textContent;
+      for (let i = 0; i < innerText.length; i++) {
+        const s = document.createElement('span');
+        s.className = 'char';
+        s.textContent = innerText[i];
+        s.setAttribute('aria-hidden', 'true');
+        wrapper.appendChild(s);
+        chars.push(s);
+      }
+      element.appendChild(wrapper);
     }
+    isFirstNode = false;
   });
   return chars;
 }

@@ -21,7 +21,7 @@
   --accent3: #EF9F27;
   --accent-blue: #378ADD;
   --z-particles: 1; --z-grain: 2; --z-vignette: 3;
-  --z-content: 10; --z-crack: 20; --z-nav: 50;
+  --z-content: 10; --z-nav: 50;
   --z-preloader: 100; --z-cursor: 9999;
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Space Grotesk', 'Inter', system-ui, sans-serif;
@@ -99,10 +99,46 @@ a { color: inherit; text-decoration: none; }
 @keyframes scrollPulse { 0%{opacity:1;transform:translateY(0)} 50%{opacity:0.3;transform:translateY(6px)} 100%{opacity:1;transform:translateY(0)} }
 .scroll-text { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.35em; color: var(--text-dim); }
 
-/* ── CRACK OVERLAY (now WHITE) ── */
-#crack-overlay { position: fixed; inset: 0; z-index: var(--z-crack); pointer-events: none; opacity: 0; will-change: opacity; }
-#crack-overlay svg { width: 100%; height: 100%; }
-#crack-overlay polyline { filter: drop-shadow(0 0 4px rgba(255,255,255,0.6)); }
+/* ── GLITCH TEXT EFFECT ── */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  animation: glitch 2.5s infinite;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.glitch-text::before {
+  color: #ff00cc;
+  clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+  animation: glitch-1 2.5s infinite;
+}
+.glitch-text::after {
+  color: #00ffff;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  animation: glitch-2 2.5s infinite;
+}
+@keyframes glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 1px); }
+  94% { transform: translate(2px, -1px); }
+  96% { transform: translate(-1px, 2px); }
+  98% { transform: translate(1px, -2px); }
+}
+@keyframes glitch-1 {
+  0%, 90%, 100% { transform: translate(0); opacity: 0; }
+  92% { transform: translate(-3px, 0); opacity: 0.8; }
+  96% { transform: translate(3px, 0); opacity: 0; }
+}
+@keyframes glitch-2 {
+  0%, 90%, 100% { transform: translate(0); opacity: 0; }
+  94% { transform: translate(3px, 2px); opacity: 0.8; }
+  98% { transform: translate(-3px, -2px); opacity: 0; }
+}
 
 /* ── ABOUT ── */
 #about { position: relative; z-index: 15; min-height: 100vh; background: var(--bg); overflow: hidden; }
@@ -149,16 +185,16 @@ a { color: inherit; text-decoration: none; }
 .timeline-card .card-back p { font-size: clamp(0.85rem, 1.1vw, 1rem); color: var(--text-body); line-height: 1.7; text-align: center; }
 
 /* ── SKILLS ── */
-#skills { position: relative; z-index: var(--z-content); min-height: 100vh; background: var(--bg); overflow: hidden; }
-#skills-canvas { width: 100%; height: calc(100vh - 4rem); display: block; margin-top: 1rem; transition: transform 0.04s linear; }
+#skills { position: relative; z-index: var(--z-content); min-height: 100vh; background: var(--bg); overflow: hidden; transform: translateZ(0); }
+#skills-canvas { width: 100%; height: calc(100vh - 4rem); display: block; margin-top: 1rem; will-change: transform, opacity; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 
 /* Skills: hide old modal, use bubble-expand instead */
 .skills-modal { display: none !important; }
 
-/* Skill expand bubble */
-.skill-expand-backdrop { transition: background 0.4s var(--ease-void), backdrop-filter 0.4s var(--ease-void); }
-.skill-expand-bubble { transition: none; }
-.expand-content { transition: opacity 0.3s; }
+/* Skill expand bubble — GPU composited */
+.skill-expand-backdrop { will-change: opacity, backdrop-filter; }
+.skill-expand-bubble { will-change: transform, opacity; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.expand-content { transition: opacity 0.25s; }
 
 /* ── PROJECTS ── */
 #projects { position: relative; z-index: var(--z-content); min-height: 100vh; background: var(--bg); padding-bottom: 6rem; }

@@ -203,6 +203,7 @@ function showExpandedBubble(skill, canvasX, canvasY) {
     position: fixed; inset: 0; z-index: 55;
     background: rgba(0,0,0,0); backdrop-filter: blur(0px);
     pointer-events: all; cursor: pointer;
+    opacity: 0;
   `;
 
   const bubble = document.createElement('div');
@@ -214,13 +215,23 @@ function showExpandedBubble(skill, canvasX, canvasY) {
   const startY = canvasRect.top + canvasY;
   const startSize = skill.r * 0.7;
 
+  // Target center and size
+  const targetSize = 360;
+  const targetX = window.innerWidth / 2;
+  const targetY = window.innerHeight / 2;
+
+  // Place bubble at center with fixed size, use transform to start at original position
+  const dx = startX - targetX;
+  const dy = startY - targetY;
+  const scaleFrom = (startSize * 2) / targetSize;
+
   bubble.style.cssText = `
     position: fixed;
-    left: ${startX}px;
-    top: ${startY}px;
-    width: ${startSize * 2}px;
-    height: ${startSize * 2}px;
-    transform: translate(-50%, -50%) scale(1);
+    left: ${targetX}px;
+    top: ${targetY}px;
+    width: ${targetSize}px;
+    height: ${targetSize}px;
+    transform: translate(-50%, -50%) translate(${dx}px, ${dy}px) scale(${scaleFrom});
     border-radius: 50%;
     background: ${skill.color}15;
     border: 2px solid ${skill.color};
@@ -250,31 +261,23 @@ function showExpandedBubble(skill, canvasX, canvasY) {
 
   document.body.appendChild(backdrop);
   document.body.appendChild(bubble);
-  expandedBubble = { backdrop, bubble, startX, startY, startSize, skill };
+  expandedBubble = { backdrop, bubble, dx, dy, scaleFrom, skill };
 
-  // Animate expand — all at once, no chaining
-  const targetSize = 360;
-  const targetX = window.innerWidth / 2;
-  const targetY = window.innerHeight / 2;
+  // Animate expand using ONLY transform + opacity (GPU composited)
+  gsap.to(backdrop, { opacity: 1, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', duration: 0.3, ease: 'power2.out' });
 
-  // Backdrop fades in
-  gsap.to(backdrop, { background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', duration: 0.3, ease: 'power2.out' });
-
-  // Bubble expands and moves to center
   gsap.to(bubble, {
-    left: targetX,
-    top: targetY,
-    width: targetSize,
-    height: targetSize,
+    transform: 'translate(-50%, -50%) translate(0px, 0px) scale(1)',
     duration: 0.4,
     ease: 'power3.out',
+    force3D: true,
   });
 
-  // Content fades in slightly delayed but overlapping with bubble expand
+  // Content fades in slightly delayed
   const content = bubble.querySelector('.expand-content');
   gsap.to(content, { opacity: 1, duration: 0.25, delay: 0.2 });
 
-  // Ring fill animates in parallel
+  // Ring fill
   const ringFill = bubble.querySelector('.expand-ring-fill');
   const circumference = 2 * Math.PI * 32;
   const targetOffset = circumference * (1 - skill.pct / 100);
@@ -287,7 +290,7 @@ function showExpandedBubble(skill, canvasX, canvasY) {
 
 function hideExpandedBubble(immediate = false) {
   if (!expandedBubble) return;
-  const { backdrop, bubble, startX, startY, startSize } = expandedBubble;
+  const { backdrop, bubble, dx, dy, scaleFrom } = expandedBubble;
 
   if (immediate) {
     backdrop.remove();
@@ -296,19 +299,18 @@ function hideExpandedBubble(immediate = false) {
     return;
   }
 
-  // Fast close animation
-  gsap.to(backdrop, { background: 'rgba(0,0,0,0)', backdropFilter: 'blur(0px)', duration: 0.2 });
+  // Fast close with transform only
+  gsap.to(backdrop, { opacity: 0, duration: 0.2 });
 
   const content = bubble.querySelector('.expand-content');
   if (content) gsap.to(content, { opacity: 0, duration: 0.1 });
 
   gsap.to(bubble, {
-    left: startX,
-    top: startY,
-    width: startSize * 2,
-    height: startSize * 2,
+    transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px) scale(${scaleFrom})`,
+    opacity: 0,
     duration: 0.3,
     ease: 'power3.in',
+    force3D: true,
     onComplete: () => {
       backdrop.remove();
       bubble.remove();
