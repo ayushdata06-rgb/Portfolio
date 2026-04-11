@@ -5,22 +5,22 @@
 import gsap from 'gsap';
 
 const SKILLS = [
-  { name: 'Flutter', pct: 78, color: '#3d5afe', cat: 'Mobile', orbit: 0, r: 58, desc: 'Cross-platform mobile framework for building natively compiled apps.' },
-  { name: 'Dart', pct: 72, color: '#1a1aff', cat: 'Mobile', orbit: 0, r: 50, desc: 'Client-optimized language powering Flutter applications.' },
-  { name: 'UI/UX', pct: 84, color: '#7c4dff', cat: 'Design', orbit: 1, r: 60, desc: 'User interface and experience design with a focus on mobile-first.' },
-  { name: 'Figma', pct: 75, color: '#b388ff', cat: 'Design', orbit: 1, r: 48, desc: 'Collaborative design tool for prototyping and design systems.' },
-  { name: 'Framer', pct: 38, color: '#7c4dff', cat: 'Design', orbit: 1, r: 40, desc: 'Interactive design tool for high-fidelity prototypes with code.' },
-  { name: 'Supabase', pct: 55, color: '#1a1aff', cat: 'Backend', orbit: 2, r: 46, desc: 'Open-source Firebase alternative with Postgres, auth, and realtime.' },
-  { name: 'React', pct: 40, color: '#3d5afe', cat: 'Frontend', orbit: 2, r: 42, desc: 'UI library for building component-based web interfaces.' },
-  { name: 'Anime.js', pct: 32, color: '#b388ff', cat: 'Frontend', orbit: 2, r: 38, desc: 'Lightweight JavaScript animation library with a clean API.' },
-  { name: 'GSAP', pct: 36, color: '#3d5afe', cat: 'Frontend', orbit: 3, r: 42, desc: 'Professional-grade animation platform for the web.' },
-  { name: 'Spline', pct: 50, color: '#1a1aff', cat: 'Frontend', orbit: 3, r: 44, desc: '3D design tool for building interactive web experiences.' },
-  { name: 'Three.js', pct: 28, color: '#7c4dff', cat: 'Frontend', orbit: 3, r: 36, desc: 'JavaScript 3D library for WebGL rendering and scenes.' },
+  { name: 'Flutter', pct: 78, color: '#7F77DD', cat: 'Mobile', orbit: 0, r: 58, desc: 'Cross-platform mobile framework for building natively compiled apps.' },
+  { name: 'Dart', pct: 72, color: '#AFA9EC', cat: 'Mobile', orbit: 0, r: 50, desc: 'Client-optimized language powering Flutter applications.' },
+  { name: 'UI/UX', pct: 84, color: '#D4537E', cat: 'Design', orbit: 1, r: 60, desc: 'User interface and experience design with a focus on mobile-first.' },
+  { name: 'Figma', pct: 75, color: '#ED93B1', cat: 'Design', orbit: 1, r: 48, desc: 'Collaborative design tool for prototyping and design systems.' },
+  { name: 'Framer', pct: 38, color: '#D4537E', cat: 'Design', orbit: 1, r: 40, desc: 'Interactive design tool for high-fidelity prototypes with code.' },
+  { name: 'Supabase', pct: 55, color: '#1D9E75', cat: 'Backend', orbit: 2, r: 46, desc: 'Open-source Firebase alternative with Postgres, auth, and realtime.' },
+  { name: 'React', pct: 40, color: '#378ADD', cat: 'Frontend', orbit: 2, r: 42, desc: 'UI library for building component-based web interfaces.' },
+  { name: 'Anime.js', pct: 32, color: '#378ADD', cat: 'Frontend', orbit: 2, r: 38, desc: 'Lightweight JavaScript animation library with a clean API.' },
+  { name: 'GSAP', pct: 36, color: '#378ADD', cat: 'Frontend', orbit: 3, r: 42, desc: 'Professional-grade animation platform for the web.' },
+  { name: 'Spline', pct: 50, color: '#7F77DD', cat: 'Frontend', orbit: 3, r: 44, desc: '3D design tool for building interactive web experiences.' },
+  { name: 'Three.js', pct: 28, color: '#378ADD', cat: 'Frontend', orbit: 3, r: 36, desc: 'JavaScript 3D library for WebGL rendering and scenes.' },
 ];
 
 const ORBIT_RADII = [140, 230, 315, 395];
 const ORBIT_SPEEDS = [0.006, 0.005, 0.004, 0.0035];
-const ORBIT_COLORS = ['#3d5afe', '#3d5afe', '#3d5afe', '#3d5afe'];
+const ORBIT_COLORS = ['#7F77DD', '#D4537E', '#1D9E75', '#378ADD'];
 const ORBIT_Y_SCALE = 0.35; // Perspective tilt — ellipses
 const Z_OSC_AMPLITUDE = 0.08;
 const Z_OSC_PERIOD_MIN = 4;
