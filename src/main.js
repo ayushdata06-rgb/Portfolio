@@ -85,16 +85,6 @@ function initNavHighlight() {
   });
 }
 
-// ── SKIP INTRO + EXPLORE ──
-function setupButtons() {
-  document.getElementById('btn-skip')?.addEventListener('click', () => skipIntro());
-  document.getElementById('btn-explore')?.addEventListener('click', () => {
-    const about = document.getElementById('about');
-    if (about && state.lenis) state.lenis.scrollTo(about, { duration: 1.5 });
-    else about?.scrollIntoView({ behavior: 'smooth' });
-  });
-}
-
 // ── SECTION SCROLL REVEALS (75% threshold, consistent easing) ──
 function initSectionReveals() {
   document.querySelectorAll('.section-label').forEach((label) => {
@@ -113,11 +103,11 @@ async function boot() {
       const el = document.getElementById(id);
       if (el) el.style.opacity = '1';
     });
-    ['.hero-eyebrow', '.hero-cta-group', '.scroll-indicator'].forEach((sel) => {
+    ['.hero-eyebrow', '.scroll-indicator'].forEach((sel) => {
       const el = document.querySelector(sel);
       if (el) el.style.opacity = '1';
     });
-    initCursor(); setupButtons(); initNavHighlight();
+    initCursor(); initNavHighlight();
     initCursorReveal(); initTimeline(); initStats();
     initSkills(); initProjects(); initContact();
     return;
@@ -127,7 +117,6 @@ async function boot() {
 
   requestAnimationFrame(async () => {
     initCursor();
-    setupButtons();
     initParticles();
     await initSmoothScroll();
 

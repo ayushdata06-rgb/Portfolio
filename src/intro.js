@@ -78,7 +78,6 @@ export function initIntro() {
     const headline = document.getElementById('hero-headline');
     const subtitle = document.getElementById('hero-subtitle');
     const eyebrow = document.querySelector('.hero-eyebrow');
-    const ctaGroup = document.querySelector('.hero-cta-group');
     const scrollIndicator = document.querySelector('.scroll-indicator');
 
     if (!headline) { resolve(); return; }
@@ -107,9 +106,6 @@ export function initIntro() {
     gsap.set(subtitle, { y: 20 });
     introTimeline.to(subtitle, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3');
 
-    gsap.set(ctaGroup, { y: 15 });
-    introTimeline.to(ctaGroup, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3');
-
     introTimeline.to(scrollIndicator, { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2');
   });
 }
@@ -117,7 +113,7 @@ export function initIntro() {
 export function skipIntro() {
   if (introTimeline) { introTimeline.progress(1); introTimeline = null; }
   [document.getElementById('hero-headline'), document.getElementById('hero-subtitle'),
-   document.querySelector('.hero-eyebrow'), document.querySelector('.hero-cta-group'),
+   document.querySelector('.hero-eyebrow'),
    document.querySelector('.scroll-indicator')].forEach((el) => {
     if (el) gsap.set(el, { opacity: 1, y: 0 });
   });
