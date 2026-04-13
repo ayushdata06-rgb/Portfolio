@@ -12,10 +12,7 @@ const SKILLS = [
   { name: 'Framer', pct: 38, color: '#D4537E', cat: 'Design', orbit: 1, r: 40, desc: 'Interactive design tool for high-fidelity prototypes with code.' },
   { name: 'Supabase', pct: 55, color: '#1D9E75', cat: 'Backend', orbit: 2, r: 46, desc: 'Open-source Firebase alternative with Postgres, auth, and realtime.' },
   { name: 'React', pct: 40, color: '#378ADD', cat: 'Frontend', orbit: 2, r: 42, desc: 'UI library for building component-based web interfaces.' },
-  { name: 'Anime.js', pct: 32, color: '#378ADD', cat: 'Frontend', orbit: 2, r: 38, desc: 'Lightweight JavaScript animation library with a clean API.' },
-  { name: 'GSAP', pct: 36, color: '#378ADD', cat: 'Frontend', orbit: 3, r: 42, desc: 'Professional-grade animation platform for the web.' },
-  { name: 'Spline', pct: 50, color: '#7F77DD', cat: 'Frontend', orbit: 3, r: 44, desc: '3D design tool for building interactive web experiences.' },
-  { name: 'Three.js', pct: 28, color: '#378ADD', cat: 'Frontend', orbit: 3, r: 36, desc: 'JavaScript 3D library for WebGL rendering and scenes.' },
+
 ];
 
 const ORBIT_RADII = [140, 230, 315, 395];
