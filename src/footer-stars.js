@@ -99,7 +99,7 @@ function createGalaxySvg() {
   center.setAttribute('cx', '100');
   center.setAttribute('cy', '100');
   center.setAttribute('r', '6');
-  center.setAttribute('fill', 'rgba(127,119,221,0.3)');
+  center.setAttribute('fill', 'rgba(0,0,0,0.3)');
   svg.appendChild(center);
 
   dots.forEach(({ x, y, size, opacity }) => {
@@ -107,7 +107,7 @@ function createGalaxySvg() {
     circle.setAttribute('cx', String(x));
     circle.setAttribute('cy', String(y));
     circle.setAttribute('r', String(size));
-    circle.setAttribute('fill', `rgba(127,119,221,${opacity.toFixed(2)})`);
+    circle.setAttribute('fill', `rgba(0,0,0,${opacity.toFixed(2)})`);
     svg.appendChild(circle);
   });
 
