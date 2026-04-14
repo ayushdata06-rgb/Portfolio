@@ -34,9 +34,8 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { font-family: var(--font-body); background: var(--bg); color: var(--heading); overflow-x: hidden; cursor: none; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--heading); overflow-x: hidden; }
 ::selection { background: var(--heading); color: var(--bg); }
-a, button { cursor: none; }
 a { color: inherit; text-decoration: none; }
 
 /* ── PRELOADER ── */

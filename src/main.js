@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initIntro, skipIntro } from './intro.js';
 import { initParticles } from './particles.js';
-import { initCursor } from './cursor.js';
+// import { initCursor } from './cursor.js';
 import { initCursorReveal, initTimeline, initStats, initAboutReveal } from './about.js';
 import { initSkills } from './skills.js';
 import { initProjects } from './projects.js';
@@ -147,7 +147,7 @@ async function boot() {
       const el = document.querySelector(sel);
       if (el) el.style.opacity = '1';
     });
-    initCursor(); initNavHighlight();
+    /* initCursor(); */ initNavHighlight();
     initCursorReveal(); initTimeline(); initStats();
     initSkills(); initProjects(); initContact();
     return;
@@ -156,7 +156,7 @@ async function boot() {
   await simulatePreloader();
 
   requestAnimationFrame(async () => {
-    initCursor();
+    // initCursor();
     initParticles();
     await initSmoothScroll();
 
