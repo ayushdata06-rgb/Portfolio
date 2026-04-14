@@ -54,7 +54,7 @@ function initContactParticles() {
     }
 
     draw() {
-      ctx.fillStyle = `rgba(0, 0, 0, ${this.opacity})`;
+      ctx.fillStyle = `rgba(127, 119, 221, ${this.opacity})`;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
@@ -82,7 +82,7 @@ function initContactParticles() {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < 150) {
-          ctx.strokeStyle = `rgba(0, 0, 0, ${0.1 * (1 - distance / 150)})`;
+          ctx.strokeStyle = `rgba(127, 119, 221, ${0.1 * (1 - distance / 150)})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(particle.x, particle.y);

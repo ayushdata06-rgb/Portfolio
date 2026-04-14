@@ -5,19 +5,19 @@
 import gsap from 'gsap';
 
 const SKILLS = [
-  { name: 'Flutter', pct: 78, color: '#222222', cat: 'Mobile', orbit: 0, r: 58, desc: 'Cross-platform mobile framework for building natively compiled apps.' },
-  { name: 'Dart', pct: 72, color: '#444444', cat: 'Mobile', orbit: 0, r: 50, desc: 'Client-optimized language powering Flutter applications.' },
-  { name: 'UI/UX', pct: 84, color: '#333333', cat: 'Design', orbit: 1, r: 60, desc: 'User interface and experience design with a focus on mobile-first.' },
-  { name: 'Figma', pct: 75, color: '#555555', cat: 'Design', orbit: 1, r: 48, desc: 'Collaborative design tool for prototyping and design systems.' },
-  { name: 'Framer', pct: 38, color: '#333333', cat: 'Design', orbit: 1, r: 40, desc: 'Interactive design tool for high-fidelity prototypes with code.' },
-  { name: 'Supabase', pct: 55, color: '#111111', cat: 'Backend', orbit: 2, r: 46, desc: 'Open-source Firebase alternative with Postgres, auth, and realtime.' },
-  { name: 'React', pct: 40, color: '#666666', cat: 'Frontend', orbit: 2, r: 42, desc: 'UI library for building component-based web interfaces.' },
+  { name: 'Flutter', pct: 78, color: '#7F77DD', cat: 'Mobile', orbit: 0, r: 58, desc: 'Cross-platform mobile framework for building natively compiled apps.' },
+  { name: 'Dart', pct: 72, color: '#AFA9EC', cat: 'Mobile', orbit: 0, r: 50, desc: 'Client-optimized language powering Flutter applications.' },
+  { name: 'UI/UX', pct: 84, color: '#D4537E', cat: 'Design', orbit: 1, r: 60, desc: 'User interface and experience design with a focus on mobile-first.' },
+  { name: 'Figma', pct: 75, color: '#ED93B1', cat: 'Design', orbit: 1, r: 48, desc: 'Collaborative design tool for prototyping and design systems.' },
+  { name: 'Framer', pct: 38, color: '#D4537E', cat: 'Design', orbit: 1, r: 40, desc: 'Interactive design tool for high-fidelity prototypes with code.' },
+  { name: 'Supabase', pct: 55, color: '#1D9E75', cat: 'Backend', orbit: 2, r: 46, desc: 'Open-source Firebase alternative with Postgres, auth, and realtime.' },
+  { name: 'React', pct: 40, color: '#378ADD', cat: 'Frontend', orbit: 2, r: 42, desc: 'UI library for building component-based web interfaces.' },
 
 ];
 
 const ORBIT_RADII = [140, 230, 315, 395];
 const ORBIT_SPEEDS = [0.006, 0.005, 0.004, 0.0035];
-const ORBIT_COLORS = ['#222222', '#333333', '#111111', '#555555'];
+const ORBIT_COLORS = ['#7F77DD', '#D4537E', '#1D9E75', '#378ADD'];
 const ORBIT_Y_SCALE = 0.35; // Perspective tilt — ellipses
 const Z_OSC_AMPLITUDE = 0.08;
 const Z_OSC_PERIOD_MIN = 4;

@@ -17,11 +17,11 @@ export function initCursor() {
 
   // Section color map
   const SECTION_COLORS = {
-    hero: '#000000',
-    about: '#333333',
-    skills: '#555555',
-    projects: '#777777',
-    contact: '#111111',
+    hero: '#7F77DD',
+    about: '#D4537E',
+    skills: '#1D9E75',
+    projects: '#378ADD',
+    contact: '#EF9F27',
   };
 
   let currentSectionColor = SECTION_COLORS.hero;
