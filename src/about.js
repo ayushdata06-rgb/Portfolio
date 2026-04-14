@@ -10,11 +10,18 @@ export function initCursorReveal() {
   const glow = document.getElementById('reveal-text-glow');
   if (!zone || !glow) return;
 
+  let ticking = false;
   zone.addEventListener('mousemove', (e) => {
-    const rect = zone.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    glow.style.clipPath = `circle(80px at ${x}px ${y}px)`;
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const rect = zone.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        glow.style.clipPath = `circle(80px at ${x}px ${y}px)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
 
   zone.addEventListener('mouseleave', () => {
@@ -97,32 +104,7 @@ export function initTimeline() {
     card.addEventListener('click', () => card.classList.toggle('flipped'));
   });
 
-  // Scroll-entry flip: each card fans open from left edge
-  const trackEl = document.getElementById('timeline-track');
-  if (trackEl) {
-    // Set initial state on all cards
-    cards.forEach((card) => {
-      card.style.opacity = '0';
-      card.style.transform = 'perspective(1000px) rotateY(90deg)';
-      card.style.transformOrigin = 'left center';
-    });
-
-    const entryObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          Array.from(cards).forEach((card, i) => {
-            setTimeout(() => {
-              card.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease';
-              card.style.opacity = '1';
-              card.style.transform = 'perspective(1000px) rotateY(0deg)';
-            }, i * 120);
-          });
-          entryObserver.disconnect();
-        }
-      });
-    }, { threshold: 0.15 });
-    entryObserver.observe(trackEl);
-  }
+// Scroll-entry flip removed to prevent conflict with GSAP ScrollTrigger
 
   // Refresh on resize so measurements stay correct
   let resizeTimer;

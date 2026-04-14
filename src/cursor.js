@@ -53,16 +53,35 @@ export function initCursor() {
 
   // Magnetic pull
   document.querySelectorAll('[data-magnetic]').forEach((el) => {
-    el.addEventListener('mousemove', (e) => {
+    let cx, cy, isHovering = false, tickingMagnet = false;
+    
+    el.addEventListener('mouseenter', () => {
       const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      el.style.transform = `translate(${(e.clientX - cx) * 0.4}px, ${(e.clientY - cy) * 0.4}px)`;
+      cx = rect.left + rect.width / 2;
+      cy = rect.top + rect.height / 2;
+      isHovering = true;
+      el.style.willChange = 'transform';
     });
+
+    el.addEventListener('mousemove', (e) => {
+      if (!isHovering) return;
+      if (!tickingMagnet) {
+        requestAnimationFrame(() => {
+          el.style.transform = `translate3d(${(e.clientX - cx) * 0.4}px, ${(e.clientY - cy) * 0.4}px, 0)`;
+          tickingMagnet = false;
+        });
+        tickingMagnet = true;
+      }
+    });
+
     el.addEventListener('mouseleave', () => {
+      isHovering = false;
       el.style.transform = '';
       el.style.transition = 'transform 0.4s cubic-bezier(0.16,1,0.3,1)';
-      setTimeout(() => { el.style.transition = ''; }, 400);
+      setTimeout(() => { 
+        el.style.transition = ''; 
+        el.style.willChange = 'auto';
+      }, 400);
     });
   });
 
@@ -93,9 +112,9 @@ export function initCursor() {
   function update() {
     requestAnimationFrame(update);
     dx += (mx - dx) * 0.2; dy += (my - dy) * 0.2;
-    dot.style.left = `${dx}px`; dot.style.top = `${dy}px`;
+    dot.style.transform = `translate3d(${dx}px, ${dy}px, 0) translate(-50%, -50%)`;
     rx += (mx - rx) * 0.08; ry += (my - ry) * 0.08;
-    ring.style.left = `${rx}px`; ring.style.top = `${ry}px`;
+    ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
 
     if (!isHoveringInteractive) {
       ring.style.borderColor = currentSectionColor;
@@ -106,11 +125,17 @@ export function initCursor() {
     trail.length = 8;
     trailDots.forEach((td, i) => {
       const p = trail[i]; if (!p) return;
-      td.style.left = `${p.x}px`; td.style.top = `${p.y}px`;
+      td.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-50%, -50%)`;
       td.style.opacity = Math.max(0, 1 - (now - p.t) / 300) * 0.3;
       td.style.background = currentSectionColor;
     });
   }
+  
+  // Initialize cursors at 0,0 via CSS overrides
+  dot.style.left = '0px'; dot.style.top = '0px';
+  ring.style.left = '0px'; ring.style.top = '0px';
+  trailDots.forEach(td => { td.style.left = '0px'; td.style.top = '0px'; });
+  
   update();
 }
 
