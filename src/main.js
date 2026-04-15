@@ -61,55 +61,9 @@ async function initSmoothScroll() {
   }
 }
 
-// ── ACTIVE NAV LINK WITH SLIDING PILL ──
+// ── ACTIVE NAV LINK WITH SLIDING PILL (REMOVED: JUST CLICK SCROLL) ──
 function initNavHighlight() {
-  const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
   const links = document.querySelectorAll('.nav-link');
-  const pill = document.getElementById('nav-pill');
-
-  function movePill(link) {
-    if (!pill || !link) return;
-    const rect = link.getBoundingClientRect();
-    const parentRect = link.parentElement.getBoundingClientRect();
-    const left = rect.left - parentRect.left;
-    const width = rect.width;
-
-    gsap.to(pill, {
-      left: left,
-      width: width,
-      duration: 0.4,
-      ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-    });
-  }
-
-  sections.forEach((id) => {
-    ScrollTrigger.create({
-      trigger: `#${id}`,
-      start: 'top 40%',
-      end: 'bottom 40%',
-      onEnter: () => setActive(id),
-      onEnterBack: () => setActive(id),
-    });
-  });
-
-  function setActive(id) {
-    links.forEach((l) => l.classList.remove('active'));
-    const target = document.querySelector(`.nav-link[href="#${id}"]`);
-    if (target) {
-      target.classList.add('active');
-      movePill(target);
-    }
-  }
-
-  // Initial pill position
-  const activeLink = document.querySelector('.nav-link.active');
-  if (activeLink && pill) {
-    // Set initial position immediately (no animation)
-    const rect = activeLink.getBoundingClientRect();
-    const parentRect = activeLink.parentElement.getBoundingClientRect();
-    pill.style.left = `${rect.left - parentRect.left}px`;
-    pill.style.width = `${rect.width}px`;
-  }
 
   // Smooth scroll on nav click
   links.forEach((link) => {
@@ -149,7 +103,8 @@ async function boot() {
     });
     /* initCursor(); */ initNavHighlight();
     initCursorReveal(); initTimeline(); initStats();
-    initSkills(); initProjects(); initContact();
+    // initSkills(); 
+    initProjects(); initContact();
     return;
   }
 

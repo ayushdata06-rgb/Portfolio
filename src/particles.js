@@ -179,7 +179,7 @@ export function initParticles() {
       // Main bubble
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0,0,0,${this.alpha})`;
+      ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
       ctx.fill();
 
       // Subtle inner glow for larger bubbles
@@ -188,8 +188,8 @@ export function initParticles() {
           this.x, this.y, 0,
           this.x, this.y, this.r
         );
-        grad.addColorStop(0, `rgba(85,85,85,${this.alpha * 0.4})`);
-        grad.addColorStop(1, `rgba(0,0,0,0)`);
+        grad.addColorStop(0, `rgba(170,170,170,${this.alpha * 0.4})`);
+        grad.addColorStop(1, `rgba(255,255,255,0)`);
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
         ctx.fillStyle = grad;
@@ -199,7 +199,7 @@ export function initParticles() {
       // Edge highlight
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(85,85,85,${this.alpha * 0.3})`;
+      ctx.strokeStyle = `rgba(200,200,200,${this.alpha * 0.3})`;
       ctx.lineWidth = 0.5;
       ctx.stroke();
     }

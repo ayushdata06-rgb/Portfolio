@@ -335,21 +335,10 @@ export function initSkills() {
     // Normalized for parallax
     mouse.normX = (e.clientX - rect.left) / rect.width * 2 - 1;
     mouse.normY = (e.clientY - rect.top) / rect.height * 2 - 1;
-    // Apply perspective tilt to canvas container
-    if (containerEl) {
-      const tiltX = -mouse.normY * 8;
-      const tiltY = mouse.normX * 8;
-      containerEl.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-    }
   });
 
   canvas.addEventListener('mouseleave', () => {
     mouse.x = -999; mouse.y = -999;
-    if (containerEl) {
-      containerEl.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1)';
-      containerEl.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
-      setTimeout(() => { if (containerEl) containerEl.style.transition = ''; }, 600);
-    }
   });
 
   canvas.addEventListener('click', () => {
