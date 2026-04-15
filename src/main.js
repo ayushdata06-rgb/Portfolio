@@ -105,6 +105,7 @@ async function boot() {
     initCursorReveal(); initTimeline(); initStats();
     // initSkills(); 
     initProjects(); initContact();
+    // initSectionNumbers();
     return;
   }
 
@@ -128,7 +129,7 @@ async function boot() {
     initSkills();
     initProjects();
     initContact();
-    initSectionNumbers();
+    // initSectionNumbers();
     initFooterStars();
     initMobileNav();
   });
