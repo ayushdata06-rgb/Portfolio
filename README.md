@@ -10,15 +10,6 @@ A modern 3D portfolio scaffold built with Next.js App Router and TypeScript.
 - Three.js, React Three Fiber, Drei
 - Framer Motion and GSAP
 
-## Run Locally
-
-```bash
-npm install
-npm run dev
-```
-
-Open http://localhost:3000.
-
 ## Core Structure
 
 - `app/page.tsx`: page composition and section layout.
