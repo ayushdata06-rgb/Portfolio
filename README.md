@@ -8,7 +8,7 @@ A modern 3D portfolio scaffold built with Next.js App Router and TypeScript.
 - TypeScript
 - Tailwind CSS
 - Three.js, React Three Fiber, Drei
-- Framer Motion and GSAP
+- Framer Motion 
 
 ## Core Structure
 
