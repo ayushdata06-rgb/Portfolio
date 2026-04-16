@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,69 +8,46 @@
   <title>Parallax.void</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
   <!-- OVERLAYS -->
   <div id="grain-overlay" aria-hidden="true"></div>
   <div id="vignette-overlay" aria-hidden="true"></div>
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-  <!-- PRELOADER -->
-  <div id="preloader">
-    <div class="preloader-inner">
-      <div class="preloader-logo">Parallax<span>.void</span></div>
-      <div class="preloader-bar-track"><div class="preloader-bar-fill" id="preloader-fill"></div></div>
-      <span class="preloader-text" id="preloader-text">0%</span>
-    </div>
-  </div>
+  <!-- ════════════ BIG BANG SCROLL ════════════ -->
+  <div id="bigbang-section" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
-  <nav id="main-nav">
-    <a href="#hero" class="nav-logo" data-magnetic>Parallax<span>.void</span></a>
-    <div class="nav-links">
-      <a href="#hero" class="nav-link active" data-magnetic>Home</a>
-      <a href="#about" class="nav-link" data-magnetic>About</a>
-      <a href="#skills" class="nav-link" data-magnetic>Skills</a>
-      <a href="#projects" class="nav-link" data-magnetic>Projects</a>
-      <a href="#contact" class="nav-link" data-magnetic>Contact</a>
-      <span class="nav-pill" id="nav-pill"></span>
-    </div>
-    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="scroll-progress" id="scroll-progress"></div>
-  </nav>
-
-  <!-- ════════════ HERO ════════════ -->
-  <section id="hero">
-    <div id="spline-canvas-hero" aria-hidden="true"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow" data-magnetic>
-        <span class="eyebrow-line"></span>
-        <span class="eyebrow-text">PARALLAX.VOID — 2026</span>
-        <span class="eyebrow-line"></span>
+  <!-- ════════════ LANDING ════════════ -->
+  <section id="landing">
+    <div class="landing-content">
+      <h1 class="landing-title">Parallax<span>.void</span></h1>
+      <p class="landing-tagline">design · code · motion</p>
+      <div class="landing-buttons">
+        <a href="#contact" class="landing-btn" data-scroll-to="#contact">Contact</a>
+        <a href="#projects" class="landing-btn" data-scroll-to="#projects">Projects</a>
       </div>
-      <div class="hero-headline-wrapper" style="perspective: 1200px;">
-        <h1 class="hero-headline" id="hero-headline">ENTER THE <span class="glitch-text" data-text="VOID">VOID</span></h1>
-      </div>
-      <p class="hero-subtitle" id="hero-subtitle">A cinematic journey through design, code &amp; motion.</p>
-
-      <div class="scroll-indicator" id="scroll-indicator">
-        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-        <span class="scroll-text">SCROLL</span>
+    </div>
+    <div class="landing-scroll-indicator">
+      <span class="landing-scroll-text">scroll</span>
+      <div class="landing-scroll-chevron">
+        <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L8 8L15 1" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
       </div>
     </div>
   </section>
-
-
 
   <!-- ════════════ ABOUT ════════════ -->
   <section id="about">
     <div class="section-label"><span class="label-num">01</span> ABOUT</div>
     <div class="about-layout">
-      <!-- Top row: heading + stats -->
       <div class="about-top-row">
         <div class="about-left-content">
           <h2 class="about-heading">Who <span class="accent">I am</span></h2>
@@ -90,44 +68,87 @@
           </div>
         </div>
       </div>
-
-      <!-- Bio paragraph with cursor reveal -->
       <div class="cursor-reveal-zone" id="cursor-reveal-zone">
-        <p class="reveal-text-base">Welcome! I'm Ayush. My journey in tech is driven by a simple goal: to build things that people actually want to use. Currently pursuing CSE with AI &amp; ML at VIT-AP — my real classroom is the projects I build. I love wearing multiple hats: one day prompt engineering or wiring up a database, the next obsessing over UI/UX for a mobile screen. Passionate about AI meeting practical product development.</p>
-        <p class="reveal-text-glow" id="reveal-text-glow" aria-hidden="true">Welcome! I'm Ayush. My journey in tech is driven by a simple goal: to build things that people actually want to use. Currently pursuing CSE with AI &amp; ML at VIT-AP — my real classroom is the projects I build. I love wearing multiple hats: one day prompt engineering or wiring up a database, the next obsessing over UI/UX for a mobile screen. Passionate about AI meeting practical product development.</p>
+        <p class="reveal-text-base">Welcome! I'm Ayush. My journey in tech is driven by a simple goal: to build things
+          that people actually want to use. Currently pursuing CSE with AI &amp; ML at VIT-AP — my real classroom is the
+          projects I build. I love wearing multiple hats: one day prompt engineering or wiring up a database, the next
+          obsessing over UI/UX for a mobile screen. Passionate about AI meeting practical product development.</p>
+        <p class="reveal-text-glow" id="reveal-text-glow" aria-hidden="true">Welcome! I'm Ayush. My journey in tech is
+          driven by a simple goal: to build things that people actually want to use. Currently pursuing CSE with AI
+          &amp; ML at VIT-AP — my real classroom is the projects I build. I love wearing multiple hats: one day prompt
+          engineering or wiring up a database, the next obsessing over UI/UX for a mobile screen. Passionate about AI
+          meeting practical product development.</p>
       </div>
-
-      <!-- Timeline cards -->
       <div class="timeline-wrapper" id="timeline-wrapper">
         <div class="timeline-track" id="timeline-track">
           <div class="timeline-card" data-year="2025">
             <div class="card-front"><span class="card-year">2025</span><span class="card-theme">Begin</span></div>
-            <div class="card-back"><p>2025 was my year of exploration and building foundations. I started the year diving into Python and learning how to manage code with GitHub, trying to figure out exactly where I fit into the tech world. That curiosity led me to officially enroll in my B.Tech for Computer Science and Engineering, specializing in AI & Machine Learning.</p></div>
+            <div class="card-back">
+              <p>2025 was my year of exploration and building foundations. I started the year diving into Python and
+                learning how to manage code with GitHub, trying to figure out exactly where I fit into the tech world.
+                That curiosity led me to officially enroll in my B.Tech for Computer Science and Engineering,
+                specializing in AI & Machine Learning.</p>
+            </div>
           </div>
           <div class="timeline-card" data-year="2026">
             <div class="card-front"><span class="card-year">2026</span><span class="card-theme">Explore</span></div>
-            <div class="card-back"><p>If 2025 was about building the foundation, 2026 was the year I started shipping real products. I took my skills out of the classroom and built a dedicated mobile app for my college from the ground up, using Flutter for a smooth cross-platform experience and Supabase for robust backend management.</p></div>
+            <div class="card-back">
+              <p>If 2025 was about building the foundation, 2026 was the year I started shipping real products. I took
+                my skills out of the classroom and built a dedicated mobile app for my college from the ground up, using
+                Flutter for a smooth cross-platform experience and Supabase for robust backend management.</p>
+            </div>
           </div>
           <div class="timeline-card" data-year="2027">
             <div class="card-front"><span class="card-year">2027</span><span class="card-theme">Ship</span></div>
-            <div class="card-back"><p></p></div>
+            <div class="card-back">
+              <p>Launched first SaaS product. Contributed to open source. Started freelancing on AI-integrated tools.
+              </p>
+            </div>
           </div>
           <div class="timeline-card" data-year="2028">
             <div class="card-front"><span class="card-year">2028</span><span class="card-theme">Expand</span></div>
-            <div class="card-back"><p></p></div>
+            <div class="card-back">
+              <p>Interned at a AI startup. Led a team of 4 building developer tools. Published 2 research papers.</p>
+            </div>
           </div>
           <div class="timeline-card" data-year="2029">
             <div class="card-front"><span class="card-year">2029</span><span class="card-theme">Beyond</span></div>
-            <div class="card-back"><p></p></div>
+            <div class="card-back">
+              <p>Building in stealth. Exploring the intersection of AI and spatial computing. The story continues...</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ════════════ HERO ════════════ -->
+  <section id="hero">
+    <div id="spline-canvas-hero" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-magnetic>
+        <span class="eyebrow-line"></span>
+        <span class="eyebrow-text">PARALLAX.VOID — 2026</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <div class="hero-headline-wrapper" style="perspective: 1200px;">
+        <h1 class="hero-headline" id="hero-headline">ENTER THE <span class="glitch-text" data-text="VOID">VOID</span>
+        </h1>
+      </div>
+      <p class="hero-subtitle" id="hero-subtitle">A cinematic journey through design, code &amp; motion.</p>
+      <div class="scroll-indicator" id="scroll-indicator">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+        <span class="scroll-text">SCROLL</span>
+      </div>
+    </div>
+  </section>
+
   <!-- ════════════ SKILLS ════════════ -->
   <section id="skills" style="background: #ffffff;">
-    <div class="section-label" style="color: #000000; border-color: rgba(0,0,0,0.1);"><span class="label-num" style="color: rgba(0,0,0,0.4);">02</span> SKILLS</div>
+    <div class="section-label" style="color: #000000; border-color: rgba(0,0,0,0.1);"><span class="label-num"
+        style="color: rgba(0,0,0,0.4);">02</span> SKILLS</div>
     <canvas id="skills-canvas"></canvas>
     <div class="skills-modal" id="skills-modal" hidden>
       <div class="modal-content">
@@ -140,6 +161,10 @@
     </div>
   </section>
 
+  <!-- Gradient transition: Skills → Projects -->
+  <div class="section-gradient-transition" style="background: linear-gradient(to bottom, #ffffff, #000000);"
+    aria-hidden="true"></div>
+
   <!-- ════════════ PROJECTS ════════════ -->
   <section id="projects">
     <div class="section-label"><span class="label-num">03</span> PROJECTS</div>
@@ -150,7 +175,9 @@
       </div>
       <div class="project-grid">
         <article class="project-card" data-project="bites">
-          <div class="card-img-slot"><div class="card-img-placeholder"><span>VIT-AP Bites</span></div></div>
+          <div class="card-img-slot">
+            <div class="card-img-placeholder"><span>VIT-AP Bites</span></div>
+          </div>
           <div class="card-content">
             <span class="card-num">01</span>
             <h3>VIT-AP Bites</h3>
@@ -160,7 +187,9 @@
           </div>
         </article>
         <article class="project-card" data-project="parallax">
-          <div class="card-img-slot"><div class="card-img-placeholder"><span>Parallax.void</span></div></div>
+          <div class="card-img-slot">
+            <div class="card-img-placeholder"><span>Parallax.void</span></div>
+          </div>
           <div class="card-content">
             <span class="card-num">02</span>
             <h3>Parallax.void</h3>
@@ -181,21 +210,24 @@
     <div class="contact-layout">
       <div class="contact-left">
         <h2 class="contact-heading">Let's build<br>something<br><span class="accent">together.</span></h2>
-        <p class="contact-sub">Have a project in mind, or just want to say hi? I'm always open to new ideas and collaborations.</p>
+        <p class="contact-sub">Have a project in mind, or just want to say hi? I'm always open to new ideas and
+          collaborations.</p>
         <div class="contact-accent-line">
           <span class="accent-dot"></span>
           <span class="accent-bar"></span>
         </div>
-        
+
         <form class="contact-form" id="contact-form" autocomplete="off">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_subject" value="New message from Parallax.void!">
           <div class="form-group">
-            <input type="text" id="contact_person_name" name="contact_person_name" placeholder="Your Name" required autocomplete="off" />
+            <input type="text" id="contact_person_name" name="contact_person_name" placeholder="Your Name" required
+              autocomplete="off" />
             <span class="focus-line"></span>
           </div>
           <div class="form-group">
-            <input type="email" id="contact_person_email" name="contact_person_email" placeholder="Your Email" required autocomplete="off" />
+            <input type="email" id="contact_person_email" name="contact_person_email" placeholder="Your Email" required
+              autocomplete="off" />
             <span class="focus-line"></span>
           </div>
           <div class="form-group">
@@ -211,7 +243,8 @@
       </div>
       <div class="contact-right">
         <div class="social-cards-grid">
-          <a href="https://www.linkedin.com/in/ayush-data-567193330/" target="_blank" rel="noopener noreferrer" class="social-card" data-color="#378ADD" data-magnetic>
+          <a href="https://www.linkedin.com/in/ayush-data-567193330/" target="_blank" rel="noopener noreferrer"
+            class="social-card" data-color="#378ADD" data-magnetic>
             <span class="sc-icon">in</span>
             <span class="sc-label">LinkedIn</span>
             <span class="sc-desc">Let's connect</span>
@@ -221,22 +254,26 @@
             <span class="sc-label">Email</span>
             <span class="sc-desc">Drop a mail</span>
           </a>
-          <a href="https://github.com/ayushdata06-rgb" target="_blank" rel="noopener noreferrer" class="social-card" data-color="#AFA9EC" data-magnetic>
+          <a href="https://github.com/ayushdata06-rgb" target="_blank" rel="noopener noreferrer" class="social-card"
+            data-color="#AFA9EC" data-magnetic>
             <span class="sc-icon">gh</span>
             <span class="sc-label">GitHub</span>
             <span class="sc-desc">See my code</span>
           </a>
-          <a href="https://twitter.com/ayushdata_666" target="_blank" rel="noopener noreferrer" class="social-card" data-color="#1DA1F2" data-magnetic>
+          <a href="https://twitter.com/ayushdata_666" target="_blank" rel="noopener noreferrer" class="social-card"
+            data-color="#1DA1F2" data-magnetic>
             <span class="sc-icon">tw</span>
             <span class="sc-label">Twitter</span>
             <span class="sc-desc">@ayushdata_666</span>
           </a>
-          <a href="https://www.instagram.com/ayushdata_666?igsh=M2huNzhoMWZ3Y3h0" target="_blank" rel="noopener noreferrer" class="social-card" data-color="#D4537E" data-magnetic>
+          <a href="https://www.instagram.com/ayushdata_666?igsh=M2huNzhoMWZ3Y3h0" target="_blank"
+            rel="noopener noreferrer" class="social-card" data-color="#D4537E" data-magnetic>
             <span class="sc-icon">ig</span>
             <span class="sc-label">Instagram</span>
             <span class="sc-desc">@ayush</span>
           </a>
-          <a href="https://discord.com/users/timepass_69" target="_blank" rel="noopener noreferrer" class="social-card" data-color="#1D9E75" data-magnetic>
+          <a href="https://discord.com/users/timepass_69" target="_blank" rel="noopener noreferrer" class="social-card"
+            data-color="#1D9E75" data-magnetic>
             <span class="sc-icon">dc</span>
             <span class="sc-label">Discord</span>
             <span class="sc-desc">@timepass_69</span>
@@ -256,8 +293,10 @@
     <span class="footer-copy">© 2026 Ayush. Crafted in the void.</span>
   </footer>
 
-  <!-- CURSOR REMOVED -->
+  <!-- SCROLL PROGRESS -->
+  <div id="scroll-progress" aria-hidden="true"></div>
 
   <script type="module" src="./src/main.js"></script>
 </body>
+
 </html>

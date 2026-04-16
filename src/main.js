@@ -12,7 +12,10 @@ import { initProjects } from './projects.js';
 import { initContact } from './contact.js';
 import { initSectionNumbers } from './section-numbers.js';
 import { initFooterStars } from './footer-stars.js';
-import { initMobileNav } from './mobile-nav.js';
+import { initBigBang } from './bigbang.js';
+import { initLandingHero } from './landing-hero.js';
+import { initVoidZoom } from './void-zoom.js';
+import { initTimelineLine } from './timeline-line.js';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -21,27 +24,6 @@ const state = {
   reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   lenis: null,
 };
-
-// ── PRELOADER ──
-function simulatePreloader() {
-  return new Promise((resolve) => {
-    const fill = document.getElementById('preloader-fill');
-    const text = document.getElementById('preloader-text');
-    const preloader = document.getElementById('preloader');
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += Math.random() * 15 + 5;
-      if (progress >= 100) {
-        progress = 100; clearInterval(interval);
-        fill.style.width = '100%'; text.textContent = '100%';
-        setTimeout(() => { preloader.classList.add('done'); resolve(); }, 400);
-      } else {
-        fill.style.width = `${progress}%`;
-        text.textContent = `${Math.round(progress)}%`;
-      }
-    }, 120);
-  });
-}
 
 // ── LENIS SMOOTH SCROLL ──
 async function initSmoothScroll() {
@@ -52,7 +34,6 @@ async function initSmoothScroll() {
   gsap.ticker.add((time) => { state.lenis.raf(time * 1000); });
   gsap.ticker.lagSmoothing(0);
 
-  // Scroll progress bar
   const progressBar = document.getElementById('scroll-progress');
   if (progressBar) {
     state.lenis.on('scroll', ({ progress }) => {
@@ -61,25 +42,7 @@ async function initSmoothScroll() {
   }
 }
 
-// ── ACTIVE NAV LINK WITH SLIDING PILL (REMOVED: JUST CLICK SCROLL) ──
-function initNavHighlight() {
-  const links = document.querySelectorAll('.nav-link');
-
-  // Smooth scroll on nav click
-  links.forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target && state.lenis) {
-        state.lenis.scrollTo(target, { duration: 1.5 });
-      } else if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-}
-
-// ── SECTION SCROLL REVEALS (75% threshold, consistent easing) ──
+// ── SECTION SCROLL REVEALS ──
 function initSectionReveals() {
   document.querySelectorAll('.section-label').forEach((label) => {
     gsap.from(label, {
@@ -92,7 +55,6 @@ function initSectionReveals() {
 // ── BOOT ──
 async function boot() {
   if (state.reducedMotion) {
-    document.getElementById('preloader')?.classList.add('done');
     ['hero-headline', 'hero-subtitle'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.style.opacity = '1';
@@ -101,37 +63,41 @@ async function boot() {
       const el = document.querySelector(sel);
       if (el) el.style.opacity = '1';
     });
-    /* initCursor(); */ initNavHighlight();
     initCursorReveal(); initTimeline(); initStats();
-    // initSkills(); 
     initProjects(); initContact();
-    // initSectionNumbers();
     return;
   }
 
-  await simulatePreloader();
-
   requestAnimationFrame(async () => {
-    // initCursor();
     initParticles();
     await initSmoothScroll();
 
-    await initIntro();
+    // Big Bang — scroll-driven, no await needed
+    initBigBang();
 
-    initNavHighlight();
-    initSectionReveals();
+    // Landing hero (parallax title + CTA buttons)
+    initLandingHero(state.lenis);
 
-    // Section modules
+    // About section modules (before hero in DOM order)
     initCursorReveal();
     initTimeline();
     initStats();
     initAboutReveal();
+    initTimelineLine();
+
+    // Hero intro text (chars created synchronously, animation async)
+    initIntro();
+
+    // Void zoom portal (T → white → Skills) — needs .char spans from initIntro
+    initVoidZoom();
+
+    initSectionReveals();
+
+    // Remaining sections
     initSkills();
     initProjects();
     initContact();
-    // initSectionNumbers();
     initFooterStars();
-    initMobileNav();
   });
 }
 

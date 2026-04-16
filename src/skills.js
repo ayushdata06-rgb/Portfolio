@@ -158,7 +158,7 @@ function draw() {
     ctx.stroke();
 
     // Name label — bigger font
-    ctx.fillStyle = isHovered ? '#fff' : skill.color;
+    ctx.fillStyle = isHovered ? '#000' : skill.color;
     ctx.font = `${isHovered ? '600' : '500'} ${Math.max(11, sr * 0.38)}px "Space Grotesk"`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -248,11 +248,11 @@ function showExpandedBubble(skill, canvasX, canvasY) {
         <circle class="expand-ring-fill" cx="40" cy="40" r="32" fill="none" stroke="${skill.color}" stroke-width="4"
           stroke-linecap="round" stroke-dasharray="${2 * Math.PI * 32}" stroke-dashoffset="${2 * Math.PI * 32}"
           transform="rotate(-90 40 40)"/>
-        <text x="40" y="44" text-anchor="middle" fill="#e8e4ff" font-family="Space Grotesk" font-weight="600" font-size="18">${skill.pct}%</text>
+        <text x="40" y="44" text-anchor="middle" fill="#111111" font-family="Space Grotesk" font-weight="600" font-size="18">${skill.pct}%</text>
       </svg>
-      <h3 style="font-family:'Space Grotesk'; font-size:1.25rem; font-weight:600; color:#e8e4ff; margin-bottom:4px; line-height:1.2;" class="expand-name">${skill.name}</h3>
+      <h3 style="font-family:'Space Grotesk'; font-size:1.25rem; font-weight:600; color:#111111; margin-bottom:4px; line-height:1.2;" class="expand-name">${skill.name}</h3>
       <span style="font-family:'JetBrains Mono'; font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:${skill.color}; display:block; margin-bottom:8px;" class="expand-cat">${skill.cat}</span>
-      <p style="font-size:0.8rem; color:rgba(255,255,255,0.6); margin:0; line-height:1.5; max-width:90%;" class="expand-desc">${skill.desc}</p>
+      <p style="font-size:0.8rem; color:rgba(0,0,0,0.6); margin:0; line-height:1.5; max-width:90%;" class="expand-desc">${skill.desc}</p>
     </div>
   `;
 
@@ -261,7 +261,7 @@ function showExpandedBubble(skill, canvasX, canvasY) {
   expandedBubble = { backdrop, bubble, dx, dy, scaleFrom, skill };
 
   // Animate expand using ONLY transform + opacity (GPU composited)
-  gsap.to(backdrop, { opacity: 1, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', duration: 0.3, ease: 'power2.out' });
+  gsap.to(backdrop, { opacity: 1, background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(4px)', duration: 0.3, ease: 'power2.out' });
 
   gsap.to(bubble, {
     transform: 'translate(-50%, -50%) translate(0px, 0px) scale(1)',
