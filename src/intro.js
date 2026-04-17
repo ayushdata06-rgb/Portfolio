@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════
    THE VOID — Intro Animation
    Character scramble decode → GSAP kinetic text reveal.
+   Now simplified for the clean hero layout.
    ═══════════════════════════════════════════════════════ */
 
 import gsap from 'gsap';
@@ -127,9 +128,6 @@ let introTimeline = null;
 export function initIntro() {
   return new Promise((resolve) => {
     const headline = document.getElementById('hero-headline');
-    const subtitle = document.getElementById('hero-subtitle');
-    const eyebrow = document.querySelector('.hero-eyebrow');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
 
     if (!headline) { resolve(); return; }
 
@@ -141,9 +139,6 @@ export function initIntro() {
 
     introTimeline = gsap.timeline({ onComplete: () => { introTimeline = null; resolve(); } });
 
-    // Phase 0: Fade in eyebrow
-    introTimeline.to(eyebrow, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' });
-
     // Phase 1: Scramble decode — chars appear one by one with glitch cycling
     introTimeline.add(() => {
       // Make chars visible with stagger
@@ -151,7 +146,7 @@ export function initIntro() {
         gsap.to(c, { opacity: 1, duration: 0.05, delay: i * 0.04 });
       });
       return scrambleDecode(chars);
-    }, '+=0.1');
+    }, '+=0.3');
 
     // Phase 2: After scramble, do the kinetic burst for extra punch
     introTimeline.from(chars, {
@@ -162,21 +157,11 @@ export function initIntro() {
       ease: 'power4.out',
       transformOrigin: '50% 50%',
     }, '+=0.3');
-
-    // Phase 3: Subtitle
-    gsap.set(subtitle, { y: 20 });
-    introTimeline.to(subtitle, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2');
-
-    // Phase 4: Scroll indicator
-    introTimeline.to(scrollIndicator, { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2');
   });
 }
 
 export function skipIntro() {
   if (introTimeline) { introTimeline.progress(1); introTimeline = null; }
-  [document.getElementById('hero-headline'), document.getElementById('hero-subtitle'),
-   document.querySelector('.hero-eyebrow'),
-   document.querySelector('.scroll-indicator')].forEach((el) => {
-    if (el) gsap.set(el, { opacity: 1, y: 0 });
-  });
+  const headline = document.getElementById('hero-headline');
+  if (headline) gsap.set(headline, { opacity: 1 });
 }

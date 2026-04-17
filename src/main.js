@@ -3,9 +3,7 @@
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { initIntro, skipIntro } from './intro.js';
 import { initParticles } from './particles.js';
-// import { initCursor } from './cursor.js';
 import { initCursorReveal, initTimeline, initStats, initAboutReveal } from './about.js';
 import { initSkills } from './skills.js';
 import { initProjects } from './projects.js';
@@ -16,6 +14,8 @@ import { initBigBang } from './bigbang.js';
 import { initLandingHero } from './landing-hero.js';
 import { initVoidZoom } from './void-zoom.js';
 import { initTimelineLine } from './timeline-line.js';
+import { initThreeDButtons } from './three-d-button.js';
+import { initSpaceTravel } from './space-travel.js';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -29,7 +29,12 @@ const state = {
 async function initSmoothScroll() {
   if (window.innerWidth < 768) return;
   const { default: Lenis } = await import('lenis');
-  state.lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  state.lenis = new Lenis({
+    lerp: 0.08,
+    duration: 1.4,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
   state.lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => { state.lenis.raf(time * 1000); });
   gsap.ticker.lagSmoothing(0);
@@ -55,40 +60,33 @@ function initSectionReveals() {
 // ── BOOT ──
 async function boot() {
   if (state.reducedMotion) {
-    ['hero-headline', 'hero-subtitle'].forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = '1';
-    });
-    ['.hero-eyebrow', '.scroll-indicator'].forEach((sel) => {
-      const el = document.querySelector(sel);
-      if (el) el.style.opacity = '1';
-    });
     initCursorReveal(); initTimeline(); initStats();
     initProjects(); initContact();
     return;
   }
 
   requestAnimationFrame(async () => {
+    // Background particles (hidden behind hero via CSS)
     initParticles();
     await initSmoothScroll();
 
-    // Big Bang — scroll-driven, no await needed
+    // Big Bang — scroll-driven
     initBigBang();
 
     // Landing hero (parallax title + CTA buttons)
     initLandingHero(state.lenis);
 
-    // About section modules (before hero in DOM order)
+    // Space travel particles in landing background
+    initSpaceTravel();
+
+    // About section modules
     initCursorReveal();
     initTimeline();
     initStats();
     initAboutReveal();
     initTimelineLine();
 
-    // Hero intro text (chars created synchronously, animation async)
-    initIntro();
-
-    // Void zoom portal (T → white → Skills) — needs .char spans from initIntro
+    // Void zoom — Lenis-style two-phase: "this is my portfolio" → "ENTER THE VOID" → zoom → white → Skills
     initVoidZoom();
 
     initSectionReveals();
@@ -98,6 +96,9 @@ async function boot() {
     initProjects();
     initContact();
     initFooterStars();
+
+    // 3D button effects on project CTAs and contact submit
+    initThreeDButtons();
   });
 }
 

@@ -1,114 +1,127 @@
 /* ═══════════════════════════════════════════════════════
-   PARALLAX.VOID — Void Zoom / T-Portal Effect
-   The "T" from "THE" scales up while a white overlay
-   smoothly fills the viewport, creating a portal that
-   seamlessly reveals the white Skills section.
+   PARALLAX.VOID — Void Zoom (Lenis-Style)
+   
+   Layout:
+   - Top-left: "THIS IS MY" (white) + "PORTFOLIO" (grey)
+   - Bottom-right: "WEBSITE" (white)
+   - Both positioned at corners like Lenis website
+   
+   Scroll flow:
+   1. Corner texts visible on pure black background
+   2. On scroll → corner texts fade out
+   3. "ENTER THE VOID" (3 stacked lines) fades in centered
+   4. "ENTER THE VOID" zooms aggressively
+   5. Black → white transition, revealing Skills
    ═══════════════════════════════════════════════════════ */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function initVoidZoom() {
   const hero = document.getElementById('hero');
-  const headline = document.getElementById('hero-headline');
-  if (!hero || !headline) return;
+  const introText = document.getElementById('void-intro-text');
+  const enterText = document.getElementById('void-enter-text');
+  if (!hero || !introText || !enterText) return;
 
-  /* Find all .char spans created by initIntro */
-  const chars = headline.querySelectorAll('.char');
-  if (chars.length === 0) return;
+  const introTop = introText.querySelector('.void-intro-top');
+  const introBottom = introText.querySelector('.void-intro-bottom');
+  const enterLines = enterText.querySelectorAll('.void-enter-line');
 
-  /* ── locate the "T" of "THE" ── */
-  let targetT = null;
-  for (let i = 0; i < chars.length - 2; i++) {
-    const a = chars[i].textContent;
-    const b = chars[i + 1].textContent;
-    const c = chars[i + 2].textContent;
-    if (a === 'T' && b === 'H' && c === 'E') {
-      targetT = chars[i];
-      break;
-    }
-  }
-  if (!targetT) return;
-
-  /* collect other chars (everything except the portal T) */
-  const otherChars = [...chars].filter((c) => c !== targetT);
-
-  /* related elements to fade out */
-  const subtitle = document.getElementById('hero-subtitle');
-  const eyebrow = document.querySelector('.hero-eyebrow');
-  const indicator = document.getElementById('scroll-indicator');
-  const glitch = document.querySelector('.glitch-text');
-  const fadeEls = [subtitle, eyebrow, indicator].filter(Boolean);
-
-  /* prepare the T for scaling */
-  targetT.style.display = 'inline-block';
-  targetT.style.willChange = 'transform, opacity';
-  targetT.style.textShadow = 'none'; // CRITICAL: remove heavy blur during scale to fix lag
-
-  /* Hero section needs overflow hidden so the scaled T doesn't leak sides */
+  /* Hero setup */
   hero.style.overflow = 'hidden';
   hero.style.position = 'relative';
+  hero.style.background = '#000000';
 
-  /* ── White portal overlay: visually matches Skills background but sits inside hero ── */
-  const portalOverlay = document.createElement('div');
-  portalOverlay.style.cssText = `
+  /* ── White portal overlay ── */
+  const whitePortal = document.createElement('div');
+  whitePortal.id = 'void-white-portal';
+  whitePortal.style.cssText = `
     position: absolute;
     inset: 0;
     background: #ffffff;
     opacity: 0;
-    z-index: 10;
+    z-index: 15;
     pointer-events: none;
     will-change: opacity;
   `;
-  hero.appendChild(portalOverlay);
+  hero.appendChild(whitePortal);
 
-  /* Calculate center for targetT */
-  const getCenterOffset = () => {
-    const rect = targetT.getBoundingClientRect();
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    return {
-      x: centerX - (rect.left + rect.width / 2),
-      y: centerY - (rect.top + rect.height / 2)
-    };
-  };
+  /* Set initial states */
+  gsap.set(introText, { opacity: 1 });
+  gsap.set(enterText, { opacity: 0, scale: 1 });
+  enterText.style.transformOrigin = 'center center';
 
-  /* ── GSAP timeline pinned with scrub ── */
+  /* ── tighter transition to eliminate blank gap ── */
+  hero.style.height = '100vh';
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: hero,
       start: 'top top',
-      end: '+=80%', // Short pin duration so the user transitions snappily
+      end: '+=250%',
       pin: true,
-      scrub: 0.1,
+      scrub: 0.3,
       anticipatePin: 1,
+      invalidateOnRefresh: true,
     },
   });
 
-  /* Phase 1 (0.0 to 0.2): Fade out peripheral elements quickly */
-  tl.to(otherChars, { opacity: 0, duration: 0.2, stagger: 0.005, ease: 'power1.in' }, 0);
-  tl.to(fadeEls, { opacity: 0, duration: 0.2, ease: 'power1.in' }, 0);
-  if (glitch) {
-    tl.to(glitch, { '--glitch-opacity': 0, duration: 0.15 }, 0);
-    tl.set(glitch, { className: '+=glitch-hidden' }, 0.15);
+  /* ═══ Phase 1 (0.00 → 0.25): Corner texts fade out ═══ */
+  // Top-left block slides up and fades
+  if (introTop) {
+    tl.to(introTop, {
+      y: -80,
+      opacity: 0,
+      duration: 0.18,
+      ease: 'power2.in',
+    }, 0.05);
   }
 
-  /* Phase 2 (0.2 to 1.0): T zooms perfectly to center */
-  tl.to(targetT, {
-    x: () => getCenterOffset().x,
-    y: () => getCenterOffset().y,
-    scale: 60, // Massive scale
-    force3D: true, // Force GPU processing for scale
-    duration: 0.8,
-    ease: 'power2.in',
-  }, 0.2);
+  // Bottom-right block slides down and fades
+  if (introBottom) {
+    tl.to(introBottom, {
+      y: 80,
+      opacity: 0,
+      duration: 0.18,
+      ease: 'power2.in',
+    }, 0.08);
+  }
 
-  /* Phase 3 (0.5 to 1.0): White portal overlay fades in, completely whiting out the screen by 1.0 */
-  tl.to(portalOverlay, {
+  /* ═══ Phase 2 (0.20 → 0.35): "ENTER THE VOID" fades in, stacked ═══ */
+  tl.to(enterText, {
     opacity: 1,
-    duration: 0.5,
-    ease: 'power2.in',
-  }, 0.5);
+    duration: 0.12,
+    ease: 'power2.out',
+  }, 0.20);
 
-  /* Timeline finishes exactly at 1.0. At this exact moment, hero is a solid white screen.
-     The pin ends, and the white Skills page naturally follows with zero empty scroll delay. */
+  /* Stagger each line */
+  tl.fromTo(enterLines, 
+    { y: 40, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.12,
+      stagger: 0.05,
+      ease: 'power3.out',
+    }, 0.20);
+
+  /* ═══ Phase 3 (0.35 → 0.80): Zoom effect ═══ */
+  tl.to(enterText, {
+    scale: 80,
+    force3D: true,
+    duration: 0.45,
+    ease: 'power2.in',
+  }, 0.35);
+
+  /* ═══ Phase 4 (0.60 → 0.80): Black → White transition ═══ */
+  tl.to(whitePortal, {
+    opacity: 1,
+    duration: 0.20,
+    ease: 'power2.in',
+  }, 0.60);
+
+  /* Fade out ENTER THE VOID into the white */
+  tl.to(enterText, {
+    opacity: 0,
+    duration: 0.10,
+    ease: 'power2.in',
+  }, 0.70);
 }

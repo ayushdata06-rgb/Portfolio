@@ -48,11 +48,12 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #000000;
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg);
+  background: #000000;
   color: var(--heading);
   overflow-x: hidden;
 }
@@ -296,7 +297,7 @@ a {
   margin-right: 0.75rem;
 }
 
-/* ── HERO ── */
+/* ── HERO / ENTER THE VOID ── */
 #hero {
   position: relative;
   z-index: var(--z-content);
@@ -306,23 +307,98 @@ a {
   justify-content: center;
   text-align: center;
   padding: 2rem;
+  background: #000000;
+  overflow: hidden;
 }
 
-#spline-canvas-hero {
+/* Solid black layer to block particle canvas behind */
+#hero::before {
+  content: '';
   position: absolute;
   inset: 0;
+  background: #000000;
   z-index: 0;
-  pointer-events: none;
 }
 
-.hero-content {
+/* ── Phase 1: Lenis-style split layout ── */
+.void-intro-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  will-change: opacity, transform;
+  padding: clamp(2rem, 5vw, 5rem);
+}
+
+/* Top-left block */
+.void-intro-top {
+  text-align: left;
+}
+
+/* Bottom-right block */
+.void-intro-bottom {
+  text-align: right;
+}
+
+.void-intro-line {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  display: block;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.void-intro-white {
+  color: #ffffff;
+}
+
+.void-intro-grey {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Phase 2: "ENTER THE VOID" stacked 3 lines ── */
+.void-enter-text {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  max-width: 900px;
-  position: relative;
-  z-index: 1;
+  justify-content: center;
+  gap: 0;
+  z-index: 3;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.void-enter-line {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 10vw, 9rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--heading);
+  text-transform: uppercase;
+}
+
+/* White portal overlay for zoom transition */
+#void-white-portal {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  z-index: 15;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* Hide legacy spline canvas */
+#spline-canvas-hero {
+  display: none;
 }
 
 .hero-eyebrow {
@@ -681,7 +757,7 @@ a {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
 }
 
@@ -695,7 +771,7 @@ a {
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.4vw, 1.15rem);
   line-height: 1.8;
-  color: rgba(0, 0, 0, 0.07);
+  color: rgba(255, 255, 255, 0.07);
   font-weight: 400;
   max-width: 100%;
 }
@@ -708,7 +784,7 @@ a {
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.4vw, 1.15rem);
   line-height: 1.8;
-  color: #111111;
+  color: #eeeeee;
   font-weight: 500;
   clip-path: circle(0px at 50% 50%);
   transition: clip-path 0.05s linear;
@@ -811,7 +887,7 @@ a {
   position: relative;
   z-index: var(--z-content);
   min-height: 100vh;
-  background: var(--bg);
+  background: #ffffff;
   overflow: hidden;
   transform: translateZ(0);
 }
@@ -1794,6 +1870,43 @@ a {
   z-index: 1;
 }
 
+/* Extra dots between years (for adding info later) */
+.timeline-extra-dot {
+  width: 7px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  pointer-events: all;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.timeline-extra-dot:hover {
+  background: #fff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+  transform: translate(-50%, -50%) scale(1.5) !important;
+}
+
+/* Border dots (on card edges) */
+.timeline-border-dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+/* Through-card connector (thin line running through card middle) */
+.timeline-through-card {
+  background: rgba(255, 255, 255, 0.08);
+  height: 1px;
+}
+
+/* "this is my portfolio" text in void zoom */
+#void-portfolio-text {
+  font-family: var(--font-mono);
+  will-change: opacity, transform;
+}
+
 /* ═══════════════════════════════════════════════════════
    Glitch hidden (used during T-zoom to suppress ::before/::after)
    ═══════════════════════════════════════════════════════ */
@@ -1847,3 +1960,77 @@ a {
   pointer-events: none;
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
 }
+
+/* ═══════════════════════════════════════════════════════
+   Particle-Triggered Glitch Effect on Landing Title
+   ═══════════════════════════════════════════════════════ */
+@keyframes particleGlitch {
+  0% { text-shadow: 2px 0 red, -2px 0 blue; transform: skewX(0deg); }
+  20% { text-shadow: -3px 0 red, 3px 0 blue; transform: skewX(-2deg); clip-path: inset(10% 0 80% 0); }
+  40% { text-shadow: 2px 0 red, -2px 0 blue; transform: skewX(1deg); clip-path: inset(50% 0 30% 0); }
+  60% { clip-path: inset(0); transform: skewX(0deg); }
+  100% { text-shadow: none; }
+}
+
+.landing-title.particle-glitch-active {
+  animation: particleGlitch 0.4s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GPU Acceleration for Animated Elements
+   ═══════════════════════════════════════════════════════ */
+.hero-headline,
+.hero-subtitle,
+.hero-eyebrow,
+.landing-title,
+.roadmap-node,
+.roadmap-card,
+.project-card,
+.social-card,
+.void-side-text {
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Roadmap Extra Content Placeholder
+   ═══════════════════════════════════════════════════════ */
+.roadmap-extra-content {
+  min-height: 40px;
+  border: 1px dashed rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   3D Button Shine Overlay
+   ═══════════════════════════════════════════════════════ */
+.btn-3d-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Void Side Text Styles
+   ═══════════════════════════════════════════════════════ */
+.void-side-text {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Space Travel Canvas
+   ═══════════════════════════════════════════════════════ */
+#space-travel-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
