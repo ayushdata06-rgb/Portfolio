@@ -3,8 +3,8 @@
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { initParticles } from './particles.js';
-import { initCursorReveal, initTimeline, initStats, initAboutReveal } from './about.js';
+
+import { initTimeline, initAboutReveal } from './about.js';
 import { initSkills } from './skills.js';
 import { initProjects } from './projects.js';
 import { initContact } from './contact.js';
@@ -60,14 +60,13 @@ function initSectionReveals() {
 // ── BOOT ──
 async function boot() {
   if (state.reducedMotion) {
-    initCursorReveal(); initTimeline(); initStats();
+    initTimeline();
     initProjects(); initContact();
     return;
   }
 
   requestAnimationFrame(async () => {
-    // Background particles (hidden behind hero via CSS)
-    initParticles();
+
     await initSmoothScroll();
 
     // Big Bang — scroll-driven
@@ -80,9 +79,9 @@ async function boot() {
     initSpaceTravel();
 
     // About section modules
-    initCursorReveal();
+
     initTimeline();
-    initStats();
+
     initAboutReveal();
     initTimelineLine();
 
@@ -99,6 +98,9 @@ async function boot() {
 
     // 3D button effects on project CTAs and contact submit
     initThreeDButtons();
+
+    // Refresh ScrollTrigger after fonts load — fonts change layout height slightly
+    setTimeout(() => ScrollTrigger.refresh(), 500);
   });
 }
 

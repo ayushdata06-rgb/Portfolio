@@ -1,33 +1,12 @@
 /* PARALLAX.VOID — About Section
-   Cursor reveal, GSAP pinned section with horizontal card auto-scroll, stats */
+   Cursor reveal, GSAP pinned section with horizontal card auto-scroll, stats
+   + SplitType heading reveals + countUp via GSAP */
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitType from 'split-type';
 
-// ── CURSOR REVEAL ──
-export function initCursorReveal() {
-  const zone = document.getElementById('cursor-reveal-zone');
-  const glow = document.getElementById('reveal-text-glow');
-  if (!zone || !glow) return;
 
-  let ticking = false;
-  zone.addEventListener('mousemove', (e) => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const rect = zone.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        glow.style.clipPath = `circle(80px at ${x}px ${y}px)`;
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
-
-  zone.addEventListener('mouseleave', () => {
-    gsap.to(glow, { clipPath: 'circle(0px at 50% 50%)', duration: 0.5, ease: 'power2.inOut' });
-  });
-}
 
 // ── TIMELINE — Pin About section, auto-scroll cards horizontally, then unpin ──
 export function initTimeline() {
@@ -70,11 +49,7 @@ export function initTimeline() {
     ease: 'power3.out',
   }, 0);
 
-  tl.from('.cursor-reveal-zone', {
-    y: 30, opacity: 0,
-    duration: 0.15,
-    ease: 'power3.out',
-  }, 0.05);
+
 
   // Phase 2 (0.15 → 0.35): Cards fade in from right, staggered
   tl.from(cards, {
@@ -114,36 +89,38 @@ export function initTimeline() {
   });
 }
 
-// ── STAT COUNTERS ──
-export function initStats() {
-  const numbers = document.querySelectorAll('.stat-number');
-  if (!numbers.length) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const target = parseInt(el.dataset.target, 10);
-      let current = 0;
-      const step = Math.max(1, Math.floor(target / 60));
-      const interval = setInterval(() => {
-        current += step;
-        if (current >= target) { current = target; clearInterval(interval); }
-        el.textContent = current;
-      }, 25);
-      observer.unobserve(el);
-    });
-  }, { threshold: 0.5 });
-
-  numbers.forEach((n) => observer.observe(n));
-}
-
-// ── ABOUT SCROLL REVEAL ──
+// ── ABOUT SCROLL REVEAL — SplitType heading + paragraph ──
 export function initAboutReveal() {
-  // The pinned timeline handles the main reveal now
-  // This just provides a subtle entrance if ScrollTrigger pin hasn't kicked in
-  gsap.from('.about-top-row', {
-    y: 40, opacity: 0, duration: 1, ease: 'power3.out',
-    scrollTrigger: { trigger: '#about', start: 'top 85%' },
+  // Heading clip-path reveal via SplitType lines
+  const headingEl = document.querySelector('.about-heading');
+  if (headingEl) {
+    const heading = new SplitType(headingEl, { types: 'lines' });
+    gsap.from(heading.lines, {
+      clipPath: 'inset(0 0 100% 0)',
+      y: 40,
+      stagger: 0.15,
+      duration: 0.9,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: headingEl,
+        start: 'top 80%',
+      },
+    });
+  }
+
+
+
+  // Timeline lines: each row wipes in
+  gsap.from('.timeline-card', {
+    opacity: 0,
+    x: -30,
+    stagger: 0.18,
+    duration: 0.7,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.timeline-wrapper',
+      start: 'top 78%',
+    },
   });
 }

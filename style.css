@@ -27,9 +27,18 @@
   --z-nav: 50;
   --z-preloader: 100;
   --z-cursor: 9999;
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  /* ─── FONT SYSTEM ─────────────────────────────────── */
+  --font-display: 'Clash Display', sans-serif;
+  --font-body: 'Satoshi', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* Weights */
+  --w-thin: 200;
+  --w-light: 300;
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-semi: 600;
+  --w-bold: 700;
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
   /* Unified animation easing — fast-out-slow-in, physical, weighty */
@@ -53,10 +62,39 @@ html {
 
 body {
   font-family: var(--font-body);
+  font-weight: var(--w-light);
+  /* 300 — airy, editorial */
+  font-size: 16px;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   background: #000000;
   color: var(--heading);
   overflow-x: hidden;
 }
+
+/* ─── ANIMATION HELPERS ───────────────────────────────── */
+.char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.reveal-ready {
+  opacity: 0;
+}
+
+/* set before GSAP takes over */
 
 ::selection {
   background: var(--heading);
@@ -201,9 +239,10 @@ a {
 .nav-logo {
   font-family: var(--font-display);
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: var(--w-semi);
   color: var(--heading);
   letter-spacing: -0.02em;
+  text-transform: lowercase;
 }
 
 .nav-logo span {
@@ -217,8 +256,9 @@ a {
 }
 
 .nav-link {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: var(--w-medium);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-body);
@@ -283,13 +323,15 @@ a {
 /* ── SECTION LABEL ── */
 .section-label {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.15em;
+  font-size: 0.72rem;
+  font-weight: var(--w-regular);
+  letter-spacing: 0.22em;
   color: var(--primary);
   text-transform: uppercase;
   padding: 3rem 3rem 0;
   position: relative;
   z-index: var(--z-content);
+  opacity: 0.45;
 }
 
 .label-num {
@@ -344,12 +386,11 @@ a {
 
 .void-intro-line {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: var(--w-bold);
   font-size: clamp(3rem, 8vw, 8rem);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   display: block;
-  font-style: italic;
   text-transform: uppercase;
 }
 
@@ -373,16 +414,36 @@ a {
   z-index: 3;
   opacity: 0;
   will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .void-enter-line {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: var(--w-bold);
   font-size: clamp(3rem, 10vw, 9rem);
   line-height: 0.95;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.05em;
   color: var(--heading);
   text-transform: uppercase;
+}
+
+/* Cinematic heading: "ENTER THE VOID" */
+.cinematic-heading {
+  font-family: var(--font-display);
+  font-weight: var(--w-bold);
+  font-size: clamp(4rem, 13vw, 14rem);
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* "THE" — thin contrast */
+.word-thin {
+  font-weight: var(--w-thin) !important;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
 }
 
 /* White portal overlay for zoom transition */
@@ -429,10 +490,10 @@ a {
 
 .hero-headline {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: var(--w-bold);
   font-size: clamp(3rem, 10vw, 9rem);
   line-height: 0.95;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   color: var(--heading);
   opacity: 0;
   text-shadow: 0 0 80px var(--primary-glow), 0 0 160px rgba(0, 0, 0, 0.05);
@@ -463,9 +524,10 @@ a {
 
 .btn-primary {
   position: relative;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
+  font-family: var(--font-body);
+  font-weight: var(--w-medium);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 14px 36px;
   background: var(--primary-deep);
@@ -474,6 +536,7 @@ a {
   border-radius: 6px;
   overflow: hidden;
   transition: transform 0.4s var(--ease-void), box-shadow 0.4s var(--ease-void);
+  cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -704,11 +767,11 @@ a {
 
 .about-heading {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: var(--w-semi);
   color: var(--heading);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
 }
 
 .about-heading .accent {
@@ -716,10 +779,13 @@ a {
 }
 
 .about-subtext {
-  font-family: var(--font-body);
-  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: var(--w-light);
   color: var(--text-body);
-  line-height: 1.7;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-style: italic;
   max-width: 380px;
 }
 
@@ -738,39 +804,42 @@ a {
 }
 
 .stats-row .stat-number {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-variant-numeric: tabular-nums;
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 600;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: var(--w-bold);
   color: var(--text-hi);
   line-height: 1;
+  letter-spacing: -0.04em;
 }
 
 .stats-row .stat-suffix {
-  font-family: var(--font-mono);
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: var(--w-bold);
   color: var(--text-hi);
+  letter-spacing: -0.04em;
 }
 
 .stats-row .stat-label {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: var(--w-light);
+  letter-spacing: 0.14em;
   color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
+  opacity: 0.5;
 }
 
-/* Bio paragraph — cursor reveal */
 .cursor-reveal-zone {
   position: relative;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
 }
 
 .reveal-text-base {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-  line-height: 1.8;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.07);
   font-weight: 400;
   max-width: 100%;
@@ -782,14 +851,14 @@ a {
   left: 0;
   width: 100%;
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-  line-height: 1.8;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  line-height: 1.6;
   color: #eeeeee;
   font-weight: 500;
   clip-path: circle(0px at 50% 50%);
   transition: clip-path 0.05s linear;
   pointer-events: none;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
 }
 
 /* Timeline — GSAP pinned horizontal scroll */
@@ -812,8 +881,8 @@ a {
 
 .timeline-card {
   flex-shrink: 0;
-  width: clamp(280px, 25vw, 380px);
-  height: clamp(280px, 36vh, 380px);
+  width: clamp(300px, 30vw, 450px);
+  height: clamp(320px, 45vh, 480px);
   perspective: 1000px;
   cursor: pointer;
   position: relative;
@@ -860,26 +929,32 @@ a {
 
 .card-year {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
-  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: var(--w-bold);
   color: var(--primary);
   line-height: 1;
+  letter-spacing: -0.04em;
+  opacity: 0.12;
 }
 
 .card-theme {
-  font-family: var(--font-mono);
-  font-size: clamp(0.65rem, 0.9vw, 0.8rem);
-  letter-spacing: 0.2em;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: var(--w-medium);
+  letter-spacing: 0.04em;
   color: var(--text-body);
   text-transform: uppercase;
   margin-top: 1rem;
 }
 
 .timeline-card .card-back p {
-  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: 0.9rem;
   color: var(--text-body);
-  line-height: 1.7;
+  line-height: 1.75;
   text-align: center;
+  opacity: 0.7;
 }
 
 /* ── SKILLS ── */
@@ -944,16 +1019,21 @@ a {
 
 .section-title {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2rem, 5vw, 42px);
-  letter-spacing: -0.02em;
+  font-weight: var(--w-semi);
+  font-size: clamp(2.2rem, 4.5vw, 4.5rem);
+  letter-spacing: -0.03em;
   color: var(--heading);
   margin-bottom: 0.75rem;
+  line-height: 1.05;
 }
 
 .section-desc {
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
   color: var(--text-body);
+  opacity: 0.55;
 }
 
 .project-grid {
@@ -1026,22 +1106,32 @@ a {
 }
 
 .card-num {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: var(--w-bold);
   color: var(--primary);
-  letter-spacing: 0.1em;
+  letter-spacing: -0.05em;
+  opacity: 0.06;
+  user-select: none;
 }
 
 .card-content h3 {
   font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: var(--w-semi);
   color: var(--heading);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .card-tagline {
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
   color: var(--text-body);
+  opacity: 0.6;
+  font-style: italic;
 }
 
 .card-tags {
@@ -1053,8 +1143,10 @@ a {
 
 .card-tags span {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  font-weight: var(--w-regular);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   padding: 4px 10px;
   border: 1px solid var(--border);
   border-radius: 99px;
@@ -1075,9 +1167,10 @@ a {
 }
 
 .card-cta span {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: var(--w-medium);
+  letter-spacing: 0.04em;
   color: var(--primary);
 }
 
@@ -1125,23 +1218,29 @@ a {
 
 .contact-heading {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 6.5rem);
+  font-weight: var(--w-bold);
   color: var(--heading);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
 }
 
-.contact-heading .accent {
-  color: var(--primary);
+.contact-heading .accent,
+.word-accent {
+  font-weight: var(--w-thin);
+  font-style: italic;
 }
 
 .contact-sub {
-  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
   color: var(--text-body);
   margin-top: 1.5rem;
-  line-height: 1.8;
+  line-height: 1.75;
   max-width: 380px;
+  opacity: 0.6;
+  letter-spacing: 0.01em;
 }
 
 .contact-accent-line {
@@ -1206,6 +1305,7 @@ a {
   border-radius: 8px;
   color: var(--heading);
   font-family: var(--font-body);
+  font-weight: var(--w-light);
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
@@ -1356,16 +1456,18 @@ a {
 }
 
 .sc-label {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: var(--w-medium);
   color: var(--heading);
+  letter-spacing: 0.02em;
 }
 
 .sc-desc {
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  letter-spacing: 0.05em;
+  font-weight: var(--w-regular);
+  letter-spacing: 0.1em;
   color: var(--text-dim);
 }
 
@@ -1383,8 +1485,9 @@ a {
 
 .pro-tip-badge {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  font-weight: var(--w-regular);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   padding: 4px 10px;
   border-radius: 6px;
@@ -1417,10 +1520,11 @@ a {
 .footer-brand {
   font-family: var(--font-display);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--w-semi);
   color: var(--heading);
   position: relative;
   z-index: 1;
+  text-transform: lowercase;
 }
 
 .footer-brand span {
@@ -1428,8 +1532,13 @@ a {
 }
 
 .footer-copy {
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: var(--w-light);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--text-dim);
+  opacity: 0.35;
   position: relative;
   z-index: 1;
 }
@@ -1753,24 +1862,31 @@ a {
 
 .landing-title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: var(--w-bold);
+  font-size: clamp(3.5rem, 10vw, 9rem);
   color: #fff;
-  line-height: 1;
-  letter-spacing: -0.03em;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
   will-change: transform;
+  text-transform: lowercase;
 }
 
-.landing-title span {
+.landing-title span,
+.hero-void {
   color: rgba(255, 255, 255, 0.45);
+  font-weight: var(--w-thin);
+  font-style: italic;
+  letter-spacing: 0.01em;
 }
 
 .landing-tagline {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  letter-spacing: 0.2em;
+  font-weight: var(--w-light);
+  font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+  letter-spacing: 0.18em;
   color: rgba(255, 255, 255, 0.4);
-  text-transform: lowercase;
+  text-transform: uppercase;
+  opacity: 0.6;
 }
 
 .landing-buttons {
@@ -1809,10 +1925,11 @@ a {
 
 .landing-scroll-text {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
   color: rgba(255, 255, 255, 0.5);
-  text-transform: lowercase;
+  text-transform: uppercase;
+  opacity: 0.4;
 }
 
 .landing-scroll-chevron {
@@ -1965,11 +2082,31 @@ a {
    Particle-Triggered Glitch Effect on Landing Title
    ═══════════════════════════════════════════════════════ */
 @keyframes particleGlitch {
-  0% { text-shadow: 2px 0 red, -2px 0 blue; transform: skewX(0deg); }
-  20% { text-shadow: -3px 0 red, 3px 0 blue; transform: skewX(-2deg); clip-path: inset(10% 0 80% 0); }
-  40% { text-shadow: 2px 0 red, -2px 0 blue; transform: skewX(1deg); clip-path: inset(50% 0 30% 0); }
-  60% { clip-path: inset(0); transform: skewX(0deg); }
-  100% { text-shadow: none; }
+  0% {
+    text-shadow: 2px 0 red, -2px 0 blue;
+    transform: skewX(0deg);
+  }
+
+  20% {
+    text-shadow: -3px 0 red, 3px 0 blue;
+    transform: skewX(-2deg);
+    clip-path: inset(10% 0 80% 0);
+  }
+
+  40% {
+    text-shadow: 2px 0 red, -2px 0 blue;
+    transform: skewX(1deg);
+    clip-path: inset(50% 0 30% 0);
+  }
+
+  60% {
+    clip-path: inset(0);
+    transform: skewX(0deg);
+  }
+
+  100% {
+    text-shadow: none;
+  }
 }
 
 .landing-title.particle-glitch-active {
@@ -1996,7 +2133,7 @@ a {
    ═══════════════════════════════════════════════════════ */
 .roadmap-extra-content {
   min-height: 40px;
-  border: 1px dashed rgba(255,255,255,0.2);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   padding: 10px;
   margin-top: 8px;
@@ -2033,4 +2170,4 @@ a {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-}
+}

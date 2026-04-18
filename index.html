@@ -6,11 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Parallax.void — A cinematic portfolio by Ayush. Design, code & motion." />
   <title>Parallax.void</title>
+  <!-- Fontshare: Clash Display + Satoshi -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css2?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+  <!-- Google Fonts: JetBrains Mono (for labels, tags, counters) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 
@@ -18,7 +20,6 @@
   <!-- OVERLAYS -->
   <div id="grain-overlay" aria-hidden="true"></div>
   <div id="vignette-overlay" aria-hidden="true"></div>
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
   <!-- ════════════ BIG BANG SCROLL ════════════ -->
   <div id="bigbang-section" aria-hidden="true"></div>
@@ -26,8 +27,8 @@
   <!-- ════════════ LANDING ════════════ -->
   <section id="landing">
     <div class="landing-content">
-      <h1 class="landing-title">Parallax<span>.void</span></h1>
-      <p class="landing-tagline">design · code · motion</p>
+      <h1 class="landing-title hero-brand">Parallax<span class="hero-void">.void</span></h1>
+      <p class="landing-tagline hero-tagline">design · code · motion</p>
       <div class="landing-buttons">
         <a href="#contact" class="landing-btn" data-scroll-to="#contact">Contact</a>
         <a href="#projects" class="landing-btn" data-scroll-to="#projects">Projects</a>
@@ -53,32 +54,9 @@
           <h2 class="about-heading">Who <span class="accent">I am</span></h2>
           <p class="about-subtext">A builder at heart. I design, code, and ship products that matter.</p>
         </div>
-        <div class="stats-row">
-          <div class="stat-item">
-            <span class="stat-number" data-target="12">0</span>
-            <span class="stat-label">projects built</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" data-target="847">0</span>
-            <span class="stat-label">cups of coffee</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" data-target="24">0</span><span class="stat-suffix">k</span>
-            <span class="stat-label">lines of code</span>
-          </div>
-        </div>
+
       </div>
-      <div class="cursor-reveal-zone" id="cursor-reveal-zone">
-        <p class="reveal-text-base">Welcome! I'm Ayush. My journey in tech is driven by a simple goal: to build things
-          that people actually want to use. Currently pursuing CSE with AI &amp; ML at VIT-AP — my real classroom is the
-          projects I build. I love wearing multiple hats: one day prompt engineering or wiring up a database, the next
-          obsessing over UI/UX for a mobile screen. Passionate about AI meeting practical product development.</p>
-        <p class="reveal-text-glow" id="reveal-text-glow" aria-hidden="true">Welcome! I'm Ayush. My journey in tech is
-          driven by a simple goal: to build things that people actually want to use. Currently pursuing CSE with AI
-          &amp; ML at VIT-AP — my real classroom is the projects I build. I love wearing multiple hats: one day prompt
-          engineering or wiring up a database, the next obsessing over UI/UX for a mobile screen. Passionate about AI
-          meeting practical product development.</p>
-      </div>
+
       <div class="timeline-wrapper" id="timeline-wrapper">
         <div class="timeline-track" id="timeline-track">
           <div class="timeline-card" data-year="2025">
@@ -138,9 +116,9 @@
     </div>
     <!-- Phase 2: "ENTER THE VOID" stacked 3 lines (hidden initially) -->
     <div class="void-enter-text" id="void-enter-text">
-      <div class="void-enter-line">ENTER</div>
-      <div class="void-enter-line">THE</div>
-      <div class="void-enter-line">VOID</div>
+      <div class="void-enter-line cinematic-heading">ENTER</div>
+      <div class="void-enter-line cinematic-heading word-thin">THE</div>
+      <div class="void-enter-line cinematic-heading">VOID</div>
     </div>
   </section>
 
@@ -208,7 +186,7 @@
     <div class="section-label"><span class="label-num">04</span> CONTACT</div>
     <div class="contact-layout">
       <div class="contact-left">
-        <h2 class="contact-heading">Let's build<br>something<br><span class="accent">together.</span></h2>
+        <h2 class="contact-heading">Let's build<br><span class="word-accent">something</span><br>together.</h2>
         <p class="contact-sub">Have a project in mind, or just want to say hi? I'm always open to new ideas and
           collaborations.</p>
         <div class="contact-accent-line">

@@ -17,8 +17,8 @@ export function initBigBang() {
   const landing = document.getElementById('landing');
   if (!section) return;
 
-  /* ── Scroll room — extends PAST the landing section ── */
-  section.style.height = '250vh';
+  /* ── Scroll room — short and tight, no blank gap ── */
+  section.style.height = '150vh';
   section.style.position = 'relative';
   section.style.background = '#000';
   section.style.zIndex = '20';
@@ -228,25 +228,20 @@ export function initBigBang() {
     0.34,
   );
 
-  /* ── Phase 4 (0.36 → 0.90): Flash fades + particles expand outward ── */
+  /* ── Phase 4 (0.36 → 0.85): Flash fades + particles expand outward ── */
   tl.to(state, { bgFlash: 0, duration: 0.08, ease: 'power2.out' }, 0.36);
 
-  // Particles expand continuously  /* ── tighter transition to eliminate blank gap ── */
-  section.style.height = '180vh';
-  section.style.position = 'relative';
-  section.style.background = '#000';
-  section.style.zIndex = '20';
-
+  // Particles expand continuously
   tl.to(state, {
     particleProgress: 1,
-    duration: 0.55,
-    ease: 'none',  // linear — constant expansion feel
+    duration: 0.50,
+    ease: 'none',
   }, 0.36);
 
-  /* ── Phase 5 (0.50 → 0.90): Black bg fades → landing visible beneath ── */
+  /* ── Phase 5 (0.50 → 0.85): Black bg fades → landing visible beneath ── */
   tl.to(state, {
     bgOpacity: 0,
-    duration: 0.40,
+    duration: 0.35,
     ease: 'power2.inOut',
   }, 0.50);
 

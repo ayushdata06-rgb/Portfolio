@@ -1,7 +1,10 @@
 /* PARALLAX.VOID — Contact Section
-   Particle network background, magnetic social cards, reveal animations */
+   Particle network background, magnetic social cards, reveal animations
+   + SplitType scroll-driven word opacity (Stripe/Linear style) */
 
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitType from 'split-type';
 
 export function initContact() {
   initContactParticles();
@@ -141,12 +144,29 @@ function initMagneticCards() {
   });
 }
 
-// ── CONTACT REVEAL ANIMATIONS ──
+// ── CONTACT REVEAL ANIMATIONS — SplitType scroll-driven word opacity ──
 function initContactReveal() {
-  gsap.from('.contact-heading', {
-    y: 50, opacity: 0, duration: 1, ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-    scrollTrigger: { trigger: '#contact', start: 'top 75%' },
-  });
+  // Main CTA heading: each word lights up as you scroll (Stripe/Linear style)
+  const headingEl = document.querySelector('.contact-heading');
+  let headingSplit = null;
+
+  if (headingEl) {
+    headingSplit = new SplitType(headingEl, { types: 'words' });
+    gsap.fromTo(headingSplit.words,
+      { opacity: 0.12, y: 0 },
+      {
+        opacity: 1,
+        stagger: 0.1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: headingEl,
+          start: 'top 80%',
+          end: 'bottom 60%',
+          scrub: 1,
+        },
+      }
+    );
+  }
 
   gsap.from('.contact-sub', {
     y: 30, opacity: 0, duration: 0.8, delay: 0.15, ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
@@ -163,9 +183,10 @@ function initContactReveal() {
     scrollTrigger: { trigger: '#contact', start: 'top 75%' },
   });
 
+  // Social links: stagger slide up
   gsap.from('.social-card', {
-    y: 30, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-    scrollTrigger: { trigger: '.social-cards-grid', start: 'top 80%' },
+    y: 20, opacity: 0, duration: 0.6, stagger: 0.07, ease: 'power2.out',
+    scrollTrigger: { trigger: '.social-cards-grid', start: 'top 70%' },
   });
 
   gsap.from('.contact-pro-tip', {
