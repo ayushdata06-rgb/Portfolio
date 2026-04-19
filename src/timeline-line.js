@@ -70,6 +70,43 @@ export function initTimelineLine() {
         extraDot.style.left = `${dotX}px`;
         extraDot.style.top = `${cardMidY}px`;
         track.appendChild(extraDot);
+
+        // Add alternating labels for 2025 -> 2026 gap
+        if (cards[i].dataset.year === '2025') {
+          const descText = [
+            'Learned the core fundamentals of Python programming, focusing on syntax and data structures.',
+            'Studied the basics of version control, repository management, and standard Git workflows.',
+            'Explored modern AI platforms to understand their capabilities, limitations, and use cases in technology.'
+          ];
+
+          if (descText[d - 1]) {
+            extraDot.classList.add('timeline-milestone-dot');
+
+            const dotDesc = document.createElement('div');
+            dotDesc.className = 'timeline-dot-desc';
+            dotDesc.innerText = descText[d - 1];
+            
+            const stalk = document.createElement('div');
+            stalk.className = 'timeline-stalk';
+            
+            dotDesc.style.left = `${dotX}px`;
+            stalk.style.left = `${dotX}px`;
+            stalk.style.transform = `translateX(-50%)`;
+
+            // Alternate above (d=1,3) and below (d=2)
+            if (d % 2 !== 0) {
+              dotDesc.style.top = `${cardMidY - 34}px`;
+              dotDesc.style.transform = 'translate(-50%, -100%)';
+              stalk.style.top = `${cardMidY - 30}px`;
+            } else {
+              dotDesc.style.top = `${cardMidY + 34}px`;
+              dotDesc.style.transform = 'translate(-50%, 0)';
+              stalk.style.top = `${cardMidY + 6}px`;
+            }
+            track.appendChild(stalk);
+            track.appendChild(dotDesc);
+          }
+        }
       }
     }
   }
@@ -121,4 +158,23 @@ export function initTimelineLine() {
     stagger: 0.06,
     ease: 'back.out(1.7)',
   }, 0.3);
+
+  /* Dot descriptions and stalks fade in */
+  const allDescs = track.querySelectorAll('.timeline-dot-desc');
+  const allStalks = track.querySelectorAll('.timeline-stalk');
+  
+  tl.to(allStalks, {
+    opacity: 1,
+    scaleY: 1,
+    duration: 0.4,
+    stagger: 0.1,
+    ease: 'power2.out',
+  }, 0.5);
+
+  tl.to(allDescs, {
+    opacity: 0.7, // dim slightly
+    duration: 0.6,
+    stagger: 0.1,
+    ease: 'power2.out',
+  }, 0.6);
 }
